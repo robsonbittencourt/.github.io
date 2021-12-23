@@ -1,0 +1,405 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Hospendando seu Blog Na AWS por Centavos &#8211; RandomDev</title>
+<meta name="description" content="###O Primeiro Post
+
+">
+<meta name="keywords" content="aws, cloud, blog, jekyll">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Hospendando seu Blog Na AWS por Centavos">
+<meta name="twitter:description" content="###O Primeiro Post
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hospendando seu Blog Na AWS por Centavos">
+<meta property="og:description" content="###O Primeiro Post
+
+">
+<meta property="og:url" content="/hospedando-seu-blog-na-aws-por-centavos/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/hospedando-seu-blog-na-aws-por-centavos/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#aws" title="Pages tagged aws">aws</a>&nbsp;&bull;&nbsp;<a href="/tags/#cloud" title="Pages tagged cloud">cloud</a>&nbsp;&bull;&nbsp;<a href="/tags/#blog" title="Pages tagged blog">blog</a>&nbsp;&bull;&nbsp;<a href="/tags/#jekyll" title="Pages tagged jekyll">jekyll</a></span>
+        
+          <h1 class="entry-title">Hospendando seu Blog Na AWS por Centavos</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2015-02-12T09:00:00-02:00"><i class="fa fa-calendar-o"></i> 12/02/2015</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=aws,cloud,blog,jekyll&amp;text=Hospendando%20seu%20Blog%20Na%20AWS%20por%20Centavos&amp;url=/hospedando-seu-blog-na-aws-por-centavos/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/hospedando-seu-blog-na-aws-por-centavos/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/hospedando-seu-blog-na-aws-por-centavos/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2015-02-10-hospedando-seu-blog-na-aws-por-centavos.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <p>###O Primeiro Post</p>
+
+<p>A ideia deste primeiro post é começar a demonstrar como montei este blog, para que possa servir como um tutorial para quem quiser começar o seu próprio.</p>
+
+<p>O processo pode ser dividido em 3 partes: criação, versionamento, e hospedagem. Creio que para os dois primeiros já existe bastante material, então resolvi escrever detalhadamente somente sobre a hospedagem que foi a parte que não encontrei muita coisa em português.</p>
+
+<p>###Criação</p>
+
+<p>Para criação do blog utilizei o gerador de sites estáticos <a href="http://jekyllrb.com/">Jekyll</a>. O Jekyll é uma ferramenta que facilita a construção de sites estáticos como por exemplo blog. Seu objetivo é fazer com que o usuário se preocupe quase que exclusivamente com o texto, uma vez que ele já tenha criado seu template.</p>
+
+<p>O Willian Justen escreveu um <a href="http://willianjusten.com.br/perguntas-e-respostas-jekyll/">ótimo post</a> demonstrando desde a instalação até a criação das páginas utilizando Jekyll.</p>
+
+<p>###Versionamento</p>
+
+<p>É muito importante que tenhamos um controle sobre as modificações do blog. Para isso utilizei Git + Github para fazer o versionamento dos arquivos. Além disso utilizar o Github possibilita que outras pessoas possam contribuir com o blog.</p>
+
+<p>O Fernando Daciuk tem <a href="http://blog.da2k.com.br/2014/01/19/manter-repositorio-github-forkado-sincronizado-com-o-original/">diversos posts</a> sobre Git e Github no seu blog.</p>
+
+<p>###Hospedagem</p>
+
+<p>Para hospedagem vou demonstrar alguns serviços da AWS (Amazon Web Services). A AWS oferece uma enorme gama de serviços utilizando o paradigma de Cloud Computing. A principal característica destes serviços é o modelo pay-as-you-go, onde você só é cobrado pelo tempo que utilizar o serviço, sem contratos.</p>
+
+<p>Irá ser necessário criar uma conta na AWS. Isso pode ser feito <a href="http://aws.amazon.com/pt/">aqui</a>. Ao criar a conta você poderá utilizar <a href="http://aws.amazon.com/pt/free/">diversos serviços gratuitamente durante 1 ano</a>. Com exceção do Route53, os demais serviços apresentados a seguir se enquadram no nível gratuito.</p>
+
+<p>Os serviços que utilizei para hospedar o blog foram:</p>
+
+<p><a href="http://aws.amazon.com/pt/s3/">S3 Simple Storage Service</a> - Armazenamento de arquivos estáticos</p>
+
+<p><a href="http://aws.amazon.com/pt/cloudfront/">CloudFront</a> - Serviço de entrega de conteúdo (CDN)</p>
+
+<p><a href="http://aws.amazon.com/pt/route53/">Route53</a> - Domínio e DNS</p>
+
+<p>###Armazenando Seus Arquivos No S3
+O Simple Storage Service, mais conhecido por S3 é o serviço de armazenamento de arquivos da AWS. É aqui que vamos colocar o conteúdo do blog. Qualquer questão relativa a backup dos arquivos é providenciada pela AWS. Você só precisa se preocupar em fazer o upload dos arquivos.</p>
+
+<p>No console principal, selecione o S3:</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/1.png" alt="console aws" />
+</figure>
+
+<p>Clique no botão <em>Create Bucket</em>. O bucket é o lugar onde irão ficar armazenados seus objetos no S3. Após, preencha o nome do bucket com o domínio do seu blog. Escolha a região US Standard pois é a mais barata e clique em <em>Create</em>.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/2.png" alt="Criando um bucket" />
+</figure>
+
+<p>Faça upload do conteúdo do seu blog dentro do bucket. Se você já leu o post sobre Jekyll faça upload do conteúdo da pasta _site.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/3.png" alt="Upload de arquivos no bucket" />
+</figure>
+
+<p>Selecione o bucket criado e vá na aba <em>Properties</em> e na opção <em>Permissions</em>. Clique no botão <em>Edit bucket policy</em></p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/4.png" alt="Permissões do bucket" />
+</figure>
+
+<p>Adicione o seguinte código:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+	<span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2008-10-17&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+		<span class="p">{</span>
+			<span class="nt">&quot;Sid&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow Public Access to All Objects&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;Principal&quot;</span><span class="p">:</span> <span class="p">{</span>
+				<span class="nt">&quot;AWS&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span>
+			<span class="p">},</span>
+			<span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::www.meublog.com/*&quot;</span>
+		<span class="p">}</span>
+	<span class="p">]</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Agora no menu <em>Static Web Hosting</em> selecione a opção <em>Enable website hosting</em> e informe sua página inicial e a página de erro.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/5.png" alt="Ativando página estática no bucket" />
+</figure>
+
+<p>Ao ativar esta opção o S3 já lhe fornece uma URL para o seu bucket. Se você acessá-la já deverá visualizar a página inicial do seu blog.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/6.png" alt="URL Bucket S3" />
+</figure>
+
+<p>Mas não queremos está URL feia certo? Vamos trabalhar nisso então.</p>
+
+<p>###Entregando o Conteúdo Do Seu Blog Rapidamente Com CloudFront</p>
+
+<p>Ao criarmos o bucket no S3 selecionamos a região US Standard. Isso significa que nossos arquivos estão sendo hospedados nos Estados Unidos. Sempre que um leitor de seu blog acessá-lo de fora dos EUA ele vai ter um tempo de carregamento da página maior, em virtude da latência.</p>
+
+<p>Mas como podemos entregar o conteúdo do nosso blog de forma otimizada para qualquer lugar do mundo? É neste ponto que entra o CloudFront. Este serviço funciona como um <a href="http://www.wikiwand.com/pt/Content_Delivery_Network">CDN - Content Delivery Network</a>. Ele se encarrega de armazenar uma cópia de seus arquivos em diversos lugares do mundo.</p>
+
+<p>Assim se alguém acessar o seu blog do Brasil, os arquivos serão recuperados dos servidores da AWS localizados no Brasil, reduzindo a latência e entregando uma melhor experiência para o leitor.</p>
+
+<p>O primeiro passo para termos estas vantagens em nosso blog é selecionar a opção CloudFront no console principal, clicar em <em>Create Distribution</em> e selecionar a opção Web. Em <em>Origin Domain Name</em> selecione o bucket criado no S3. As demais opções não precisam ser alteradas.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/7.png" alt="Criando distribuição no CloudFront" />
+</figure>
+
+<p>No campo <em>Alternate Domain Names</em> coloque o domínio do seu blog das duas formas que são mostradas na imagem. Também adicione o objeto raiz da sua distribuição, que será o mesmo que você selecionou no S3, nesse caso o index.html. As demais opções podem permanecer com os valores padrão.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/8.png" alt="Criando distribuição no CloudFront" />
+</figure>
+
+<p>Agora se irmos no menu lateral <em>Distributions</em> e selecionarmos a distribuição recém criada, poderemos verificar que ela tem um <em>Domain Name</em>. Essa url irá devolver também a página inicial do blog, mas agora utilizando o serviço CloudFront. Mas ainda temos uma URL pouco amigável. Chegou a hora de comprarmos nosso próprio domínio.</p>
+
+<p>###Obtendo Uma URL Amigável Com Route53</p>
+
+<p>Agora que já temos nossos arquivos hospedados e sendo entregues da melhor forma possível, precisamos ter uma URL amigável para que nosso blog seja encontrado facilmente pelos leitores. O primeiro passo é adquirir um domínio, que será o endereço de seu blog na web. Selecione o Route53 no console principal, <em>Registered Domains</em>, <em>Register Domain</em>. Escolha o nome do seu domínio e a extensão final da URL. Domínios .com custam $12, mas não se assuste com esse valor ele é anual.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/9.png" alt="Registrando um domínio no Route53" />
+</figure>
+
+<p>Clicando no botão <em>check</em> o sistema irá verificar se o domínio escolhido está disponível. Se positivo clique em <em>continue</em> até finalizar a compra.</p>
+
+<p>Agora que temos nosso domínio precisamos fazer as configurações de <a href="http://www.wikiwand.com/pt/Domain_Name_System">DNS</a> para quando o leitor digitar o endereço do nosso blog ele seja redirecionado para a nossa distribuição do CloudFront.</p>
+
+<p>Ainda no Route53 clique na opção <em>Hosted Zones</em>, e depois em <em>Create Hosted Zone</em>. Em <em>Domain Name</em> coloque o endereço do seu blog e clique em <em>Create</em>.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/10.png" alt="Hosted Zone no Route53" />
+</figure>
+
+<p>Com a Hosted Zone selecionada clique em <em>Go to Record Sets</em>. Clique em <em>Create Record Set</em>. Marque a opção <em>Alias</em> como Yes, e selecione sua distribuição do CloudFront no campo <em>Alias Target</em>.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/11.png" alt="Records Sets no Route53" />
+</figure>
+
+<p>Faça o mesmo procedimento novamente, mas agora preenchendo o campo <em>Name</em> com www. Seus Records Sets devem estar parecidos com estes.</p>
+
+<figure>
+	<img src="/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/12.png" alt="Records Sets no Route53" />
+</figure>
+
+<p>###Pronto</p>
+
+<p>Agora basta esperar a propagação do DNS, que pode levar até 24 horas e depois começar a escrever em seu blog. Mesmo após passar o período do free trial da AWS o custo de hospedagem do blog será muito baixo. Tirando o domínio que tem um custo um pouco mais elevado, você irá gastar menos de $1 por mês.</p>
+
+<p>Se interessou pelos serviços da AWS? Fique atento que virão mais posts sobre o assunto em breve. Até mais.</p>
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+      
+        <a href="/funcoes-javascript-como-funciona-o-escopo/" class="btn" title="Funções JavaScript - Como Funciona O Escopo">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

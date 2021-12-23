@@ -1,0 +1,454 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Generics indo além - Wildcards &#8211; RandomDev</title>
+<meta name="description" content="No meu último post apresentei alguns conceitos básicos sobre Generics. Vale reforçar que o conteúdo que será apresentado aqui, foi visto no curso da Pluralsight sobre Generics. Não, não estou fazendo propaganda, é que o curso é bom mesmo, recomendo :)
+
+">
+<meta name="keywords" content="java, generics">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Generics indo além - Wildcards">
+<meta name="twitter:description" content="No meu último post apresentei alguns conceitos básicos sobre Generics. Vale reforçar que o conteúdo que será apresentado aqui, foi visto no curso da Pluralsight sobre Generics. Não, não estou fazendo propaganda, é que o curso é bom mesmo, recomendo :)
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Generics indo além - Wildcards">
+<meta property="og:description" content="No meu último post apresentei alguns conceitos básicos sobre Generics. Vale reforçar que o conteúdo que será apresentado aqui, foi visto no curso da Pluralsight sobre Generics. Não, não estou fazendo propaganda, é que o curso é bom mesmo, recomendo :)
+
+">
+<meta property="og:url" content="/generics-indo-alem-wildcards/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/generics-indo-alem-wildcards/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#java" title="Pages tagged java">java</a>&nbsp;&bull;&nbsp;<a href="/tags/#generics" title="Pages tagged generics">generics</a></span>
+        
+          <h1 class="entry-title">Generics indo além - Wildcards</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2016-02-02T12:00:00-02:00"><i class="fa fa-calendar-o"></i> 02/02/2016</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=java,generics&amp;text=Generics%20indo%20além%20-%20Wildcards&amp;url=/generics-indo-alem-wildcards/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/generics-indo-alem-wildcards/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/generics-indo-alem-wildcards/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2016-02-02-generics-indo-alem-wildcards.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <p>No <a href="http://rbittencourt.com/introducao-a-generics/">meu último post</a> apresentei alguns conceitos básicos sobre <em>Generics</em>. Vale reforçar que o conteúdo que será apresentado aqui, foi visto no curso da <a href="https://app.pluralsight.com/library/courses/java-generics/table-of-contents">Pluralsight sobre Generics</a>. Não, não estou fazendo propaganda, é que o curso é bom mesmo, recomendo :)</p>
+
+<h3 id="variância">Variância</h3>
+
+<p>Antes de explicar o que são <em>Wildcards</em> é necessário mostrar alguns detalhes sobre <em>arrays</em> em Java. Variância é um conceito que se relaciona a como a herança entre classes se comporta na declaração de variáveis. Não vou me aprofundar neste assunto, mas <a href="http://sergiotaborda.javabuilding.com/2015/04/variancia/">este link</a> traz uma ótima explicação sobre.</p>
+
+<p>Por hora precisamos saber que <em>arrays</em> em Java são covariantes, vamos entender o porquê.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Animal</span> <span class="o">{}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Cat</span> <span class="kd">extends</span> <span class="n">Animal</span> <span class="o">{}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">extends</span> <span class="n">Animal</span> <span class="o">{}</span>
+
+<span class="n">Cat</span><span class="o">[]</span> <span class="n">cats</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+		
+<span class="n">Animal</span><span class="o">[]</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">cats</span><span class="o">;</span></code></pre></figure>
+
+<p>Como pode-se perceber, é possível declarar um <em>array</em> com o tipo da classe filha e atribuir à um <em>array</em> do tipo da classe pai. Isso é conhecido como covariância, e traz alguns problemas como este:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Cat</span><span class="o">[]</span> <span class="n">cats</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Cat</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+		
+<span class="n">Animal</span><span class="o">[]</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">cats</span><span class="o">;</span>
+		
+<span class="n">animals</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dog</span><span class="o">();</span> <span class="c1">//compila pois Dog é um Animal</span>
+		
+<span class="c1">// out - Exception in thread &quot;main&quot; java.lang.ArrayStoreException:</span>
+<span class="c1">// com.generics.lab.Dog at </span>
+<span class="c1">// com.generics.lab.GenericTest.main(GenericTest.java:12)</span></code></pre></figure>
+
+<p>O <em>array</em> é um tipo primitivo especial, não possui uma classe nem implementa uma interface, mas possui uma estrutura, e esta conhece o tipo que deve ser possível armazenar, por isso a exceção no exemplo foi lançada. Isso nos leva a perceber que <em>arrays</em> não são muito seguros, por isso é recomendado o uso de listas.</p>
+
+<p>As listas ao contrário dos <em>arrays</em> são invariantes e só podem ser atribuídas a variáveis com o mesmo tipo genérico.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">dogs</span><span class="o">;</span> <span class="c1">// não compila apesar de Dog ser um Animal</span>
+		
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">otherDogs</span> <span class="o">=</span> <span class="n">dogs</span><span class="o">;</span> <span class="c1">// compila</span></code></pre></figure>
+
+<p>Isso torna o uso de listas mais seguro que <em>arrays</em>. Caso as listas não fossem invariantes poderiamos fazer algo desse tipo:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span> <span class="o">=</span> <span class="n">dogs</span><span class="o">;</span> <span class="c1">// não compila é somente um exemplo</span>
+		
+<span class="n">animals</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Cat</span><span class="o">());</span>
+<span class="n">Dog</span> <span class="n">dog</span> <span class="o">=</span> <span class="n">dogs</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="c1">// nada de bom iria acontecer aqui</span></code></pre></figure>
+
+<h3 id="wildcards">Wildcards</h3>
+
+<p>Mas e no caso de precisarmos de uma lista com elementos de vários tipos os quais temos domínio. Por exemplo, queremos criar um método que retorne a espécie dos animais de uma lista. Como observamos, se utilizarmos o tipo da classe pai, só poderemos trabalhar com listas deste tipo, o que nos leva a ter que criar uma método para cada classe filha.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// considere que getSpecies é um método da classe Animal</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printAllDogSpecies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Dog</span> <span class="n">dog</span> <span class="o">:</span> <span class="n">dogs</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">dog</span><span class="o">.</span><span class="na">getSpecies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printAllCatSpecies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="n">cats</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Cat</span> <span class="n">cat</span> <span class="o">:</span> <span class="n">cats</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">cat</span><span class="o">.</span><span class="na">getSpecies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Cheira mal certo? Se houvessem cem implementações de Animal, teríamos este código replicado uma centena de vezes. Felizmente temos como resolver isso utilizando <em>Wildcards</em>.</p>
+
+<h4 id="upper-bounded-wildcards">Upper Bounded Wildcards</h4>
+
+<p><em>Wildcard</em> é o nome dado ao identificador <em>?</em> em códigos genéricos. Ele representa um tipo desconhecido, e pode ser utilizado em algumas situações como um tipo de parâmetro ou uma variável local.</p>
+
+<p>Existem algumas formas de utilizar o <em>Wildcard</em>, a primeira que iremos observar é o <em>Upper Bounded Wildcard</em>. Vamos resolver o problema anterior utilizando este tipo de <em>Wildcard</em>:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">printAllSpecies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">getSpecies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Pronto agora temos um método que pode ser utilizado para qualquer classe filha de Animal. A sintaxe que utilizamos diz que pode-se passar no parâmetro qualquer lista onde o tipo genérico seja uma classe que extenda Animal.</p>
+
+<p>Observando-se a sintaxe, podemos entender o porque do nome <em>Upper Bounded Wildcard</em>. Ao utilizarmos <code>&lt;? extends Animal&gt;</code> Animal é a classe de hierarquia mais alta (<em>upper</em>) aceita como parâmetro.</p>
+
+<p>Você pode estar se perguntando, qual é a diferença entre utilizar o <code>? extends</code> ou <code>T extends</code>. O <em>?</em> é utilizado onde já é esperado um tipo genérico, por exemplo na interface List. Quando uma classe genérica é criada não podemos utilizar o <em>Wildcard</em> deve-se utilizar o identificador de tipo genérico.</p>
+
+<p>Também podemos utilizar em uma classe genérica que possui um método genérico com tipo diferente do da classe. Além disso, também é útil como <em>sintax sugar</em> na assinatura de métodos.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">printAllSpecies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">getSpecies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// como não utilizamos o T no corpo do método podemos utilizar o Wildcard</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printAllSpecies</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Sytslem</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">getSpecies</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="lower-bounded-wildcards">Lower Bounded Wildcards</h4>
+
+<p>Semelhante a forma anterior, o <em>Lower Bounded Wildcards</em> possui uma sintaxe semelhante, porém no lugar da palavra <em>extends</em> utilizamos <em>super</em>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">loadNewAnimals</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">Animal</span> <span class="n">animal</span><span class="o">;</span>
+   
+   <span class="k">while</span> <span class="o">((</span><span class="n">animal</span> <span class="o">=</span> <span class="n">searchNewAnimals</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">animals</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">animal</span><span class="o">);</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Neste caso podemos passar como argumento uma lista com tipo genérico igual a <em>Animal</em> ou uma de suas classes pai. Ou seja <em>Animal</em> é a classe mais baixa (lower) da hierarquia que pode ser utilizada.</p>
+
+<h4 id="unbounded-wildcards">Unbounded Wildcards</h4>
+
+<p>A última forma é utilizada quando precisamos de um tipo genérico mas não nos importamos com qual.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">animal</span> <span class="o">=</span> <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">&quot;Animal&quot;</span><span class="o">);</span></code></pre></figure>
+
+<p>O <em>Wildcard</em> sozinho é um <em>sintaxe sugar</em> para <code>&lt;? extends Object&gt;</code></p>
+
+<h3 id="quando-utilizar-cada-forma">Quando utilizar cada forma?</h3>
+
+<p>Existem recomendações que nos dizem quando utilizar cada uma das formas de <em>Wildcards</em>. <strong>Lembrando que devemos utilizá-los somente quando o tipo concreto é muito restritivo para a lógica do método.</strong></p>
+
+<p>O <em>Upper Bounded</em> deve ser utilizado quando a variável for “de entrada” (in). Dizemos que a variável é de entrada quando ela fornece dados à um método, ou seja será lida.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">printAllSizes</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">for</span> <span class="o">(</span><span class="n">Animal</span> <span class="n">animal</span> <span class="o">:</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Sytslem</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">animal</span><span class="o">.</span><span class="na">getSize</span><span class="o">());</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Essa regra nos dá segurança, pois como a variável <code>animals</code> será lida dentro do <code>for</code>, só é seguro aceitarmos uma instância de <em>Animal</em> ou uma de subclasses.</p>
+
+<p>O <em>Lower Bounded</em> é o caso contrário. Devemos utilizá-lo quando a variável for de saída (out), ou seja, uma variável que terá dados escritos nela, para utilização posterior.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">createDefaultAnimalList</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">Animal</span><span class="o">&gt;</span> <span class="n">animals</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">animals</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Dog</span><span class="o">());</span>
+   <span class="n">animals</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Cat</span><span class="o">());</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Como o método adiciona objetos da classe <em>Animal</em> em uma lista, o tipo genérico da lista deve ser <em>Animal</em> ou uma de suas superclasses.</p>
+
+<p>O <em>Unbounded</em> é o que tem aplicação mais limitada. Sua sintaxe <code>&lt;?&gt;</code> é um <em>sintaxe sugar</em> para <code>&lt;? extends Object&gt;</code>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printList</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;?&gt;</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">elem</span><span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">elem</span> <span class="o">+</span> <span class="s">&quot; &quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Podemos utilizá-lo quando o método usa funcionalidades da classe Object no parâmetro, ou quando a implementação não depende do tipo genérico.</p>
+
+<h3 id="erros-comuns">Erros comuns</h3>
+
+<p>Muitas pessoas se confundem ao utilizar <em>Wildcards</em> com listas, devido ao fato de acreditarem que o tipo genérico se refere ao elementos que podem ser inseridos na mesma.</p>
+
+<p>É importante ressaltar que o tipo genérico define o tipo que será utilizado na classe ou método, ou seja uma vez definido ele é único. Vamos ver um exemplo utilizando o <em>Unbounded Wildcard</em>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span><span class="o">&lt;?&gt;</span> <span class="n">objects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="c1">// não compila      </span>
+<span class="n">objects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">());</span>
+<span class="n">objects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Dog</span><span class="o">());</span></code></pre></figure>
+
+<p>Isso acontece pois <code>&lt;?&gt;</code> é a mesma coisa que <code>&lt;? extends Object&gt;</code>. Por isso nenhum valor pode ser inserido nesta lista (a não ser null).</p>
+
+<p>O exemplo também ressalta que não devemos pensar no <code>&lt;?&gt;</code> como sendo a mesma coisa que a classe <em>Object</em>, pois com ela o mesmo exemplo seria válido.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">objects</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="c1">// compila      </span>
+<span class="n">objects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Object</span><span class="o">());</span>
+<span class="n">objects</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Dog</span><span class="o">());</span></code></pre></figure>
+
+<h3 id="conclusão">Conclusão</h3>
+
+<p>Como vimos, o conhecimento sobre o uso correto dos <em>Wildcards</em> nos possibilita escrevermos códigos mais flexíveis. É um assunto um pouco complexo, alguns pontos ainda ficaram de fora deste post, por isso deixo algumas referências que utilizei que podem servir como complemento. No post anterior, havia dito que falaria sobre <em>Raw Types</em> e <em>Erasure</em>, mas como esse ficou grande, vai ter que ficar para o próximo.</p>
+
+<h3 id="referências">Referências</h3>
+
+<p><a href="https://app.pluralsight.com/library/courses/java-generics/table-of-contents">Java Fudamentals: Generic</a></p>
+
+<p><a href="http://sergiotaborda.javabuilding.com/2015/04/variancia/">Variância</a></p>
+
+<p><a href="https://docs.oracle.com/javase/tutorial/java/generics/index.html">Documentação sobre Generics</a></p>
+
+<p><a href="https://docs.oracle.com/javase/tutorial/java/generics/wildcardGuidelines.html">Guidelines for Wildcard Use</a></p>
+
+<p><a href="http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html">Java Generics FAQs - Programming With Java Generics</a></p>
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="/introducao-a-generics/" class="btn" title="Introdução à Generics">Previous</a>
+      
+      
+        <a href="/generics-por-baixo-dos-panos/" class="btn" title="Generics - Por baixo dos panos">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

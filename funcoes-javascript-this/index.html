@@ -1,0 +1,368 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Funções JavaScript - This &#8211; RandomDev</title>
+<meta name="description" content="O tal This
+Se você é um desenvolvedor de linguagens orientadas a objeto como Java e C#, já deve estar acostumado com o conceito de this. Nestas linguagens, this é o contexto de execução. Por exemplo quando executamos um método em Java, podemos utilizar referências a this, que equivalem ao objeto que esta realizando a invocação. Isso permite que métodos iguais retornem informações diferentes de acordo com quem faz a chamada.
+
+">
+<meta name="keywords" content="javascript, funcoes">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Funções JavaScript - This">
+<meta name="twitter:description" content="O tal This
+Se você é um desenvolvedor de linguagens orientadas a objeto como Java e C#, já deve estar acostumado com o conceito de this. Nestas linguagens, this é o contexto de execução. Por exemplo quando executamos um método em Java, podemos utilizar referências a this, que equivalem ao objeto que esta realizando a invocação. Isso permite que métodos iguais retornem informações diferentes de acordo com quem faz a chamada.
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Funções JavaScript - This">
+<meta property="og:description" content="O tal This
+Se você é um desenvolvedor de linguagens orientadas a objeto como Java e C#, já deve estar acostumado com o conceito de this. Nestas linguagens, this é o contexto de execução. Por exemplo quando executamos um método em Java, podemos utilizar referências a this, que equivalem ao objeto que esta realizando a invocação. Isso permite que métodos iguais retornem informações diferentes de acordo com quem faz a chamada.
+
+">
+<meta property="og:url" content="/funcoes-javascript-this/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/funcoes-javascript-this/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#javascript" title="Pages tagged javascript">javascript</a>&nbsp;&bull;&nbsp;<a href="/tags/#funcoes" title="Pages tagged funcoes">funcoes</a></span>
+        
+          <h1 class="entry-title">Funções JavaScript - This</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2015-03-30T12:00:00-03:00"><i class="fa fa-calendar-o"></i> 30/03/2015</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=javascript,funcoes&amp;text=Funções%20JavaScript%20-%20This&amp;url=/funcoes-javascript-this/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/funcoes-javascript-this/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/funcoes-javascript-this/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2015-03-30-funcoes-javascript-this.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <h3 id="o-tal-this">O tal This</h3>
+<p>Se você é um desenvolvedor de linguagens orientadas a objeto como Java e C#, já deve estar acostumado com o conceito de <em>this</em>. Nestas linguagens, <em>this</em> é o contexto de execução. Por exemplo quando executamos um método em Java, podemos utilizar referências a <em>this</em>, que equivalem ao objeto que esta realizando a invocação. Isso permite que métodos iguais retornem informações diferentes de acordo com quem faz a chamada.</p>
+
+<p>Chegando no mundo JavaScript, vamos perceber que o <em>this</em> é tratado de forma totalmente distinta. Aqui <em>this</em> não é determinado por quem chama a função e sim pela forma como ela é invocada. Existem quatro maneiras de invocar uma função, e vamos conhece-las agora: <em>Invocação como Função</em>, <em>Invocação como Método</em>, <em>Invocação como Construtor</em> e <em>Invocação por apply/call</em>.</p>
+
+<h3 id="invocação-como-função">Invocação como Função</h3>
+<p>Como assim invocação como função? É óbvio que uma função é invocada como uma função, qualquer um deduziria isso. Na verdade dizemos que uma função é invocada como função quando ela não é invocada de nenhuma das outras três maneiras: método, construtor, apply/call.</p>
+
+<p>Este tipo de invocação ocorre quando a função é invocada utilizando o operador () e a expressão para qual o operador é aplicado não referência a função como uma propriedade de um objeto. Quando utilizamos este tipo de invocação o contexto da função é o contexto global (window).</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">function</span> <span class="nx">printBalance</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="k">this</span><span class="p">;}</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nx">printBalance</span><span class="p">()</span> <span class="o">===</span> <span class="nb">window</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Window is the context!&#39;</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">depositValue</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+<span class="nx">depositValue</span><span class="p">();</span></code></pre></figure>
+
+<h3 id="invocação-como-método">Invocação como Método</h3>
+<p>Quando uma função é atribuída a uma propriedade de um objeto, e a invocação ocorre através desta propriedade, então a função é invocada como um método deste objeto. Aqui as coisas começam a ficar interessantes.</p>
+
+<p>Quando invocamos uma função como método, o contexto da função é o objeto ao qual o método pertence. Assim como em outras linguagens orientadas a objetos, o objeto utilizado para invocar a função é passado como referência implícita para a mesma, possibilitando a sua utilização dentro da função.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">var</span> <span class="nx">account</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">clientName</span><span class="o">:</span> <span class="s1">&#39;Mike&#39;</span>
+<span class="p">};</span>
+
+<span class="nx">account</span><span class="p">.</span><span class="nx">getClientName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">clientName</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">account</span><span class="p">.</span><span class="nx">getClientName</span><span class="p">();</span></code></pre></figure>
+
+<h3 id="invocação-como-construtor">Invocação como Construtor</h3>
+<p>Invocação como construtor é uma forma de se criar objetos. Na verdade todas as funções podem ser invocadas desta forma, basta chamá-las utilizando a palavra-chave <em>new</em>.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">new</span> <span class="nx">printBalance</span><span class="p">();</span></code></pre></figure>
+
+<p>Quando utilizamos a palavra-chave <em>new</em> três coisas acontecem:</p>
+
+<ul>
+  <li>
+    <p>Um novo objeto vazio é criado.</p>
+  </li>
+  <li>
+    <p>Esse objeto é transmitido ao construtor como parâmetro <em>this</em> e torna-se o contexto da função do construtor.</p>
+  </li>
+  <li>
+    <p>Quando não há um valor de retorno explícito o novo objeto é retornado como valor do construtor.</p>
+  </li>
+</ul>
+
+<p>Como você deve ter percebido, isso faz com que nem todas funções sejam interessantes de serem invocadas utilizando <em>new</em>. Os construtores na verdade têm como objetivo criar um objeto, configurá-lo e retorná-lo. Qualquer coisa diferente disso não irá trazer resultados muito bons. Um bom exemplo da utilização dos construtores para criação de objetos:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">function</span> <span class="nx">Account</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">account1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Account</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">account1</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span></code></pre></figure>
+
+<p>Por ter sua função bem definida, existem padrões utilizados na nomenclatura dos construtores. Enquanto os métodos são nomeados com verbos e iniciam com a primeira letra minúsculas, os construtores recebem no nome um substantivo que indica o objeto que será construído e iniciam com uma letra maiúscula.</p>
+
+<h3 id="invocação-por-applycall">Invocação por Apply/Call</h3>
+<p>Até agora vimos diferentes formas de invocar funções, onde <em>this</em> é determinado de acordo com a forma escolhida. Mas e se quiséssemos definir <em>this</em> da nossa forma? Sim podemos fazer isso utilizando um dos dois métodos que todas funções possuem: <em>apply</em> e <em>call</em>.</p>
+
+<p>Quando utilizamos estes métodos podemos definir quem será o contexto da função e ainda passar uma lista de argumentos. A diferença entre os dois é que enquanto <em>apply</em> recebe um array de argumentos, <em>call</em> recebe os mesmos diretamente na lista de argumentos.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">function</span> <span class="nx">deposit</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">balance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">balance</span> <span class="o">+=</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">n</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">balance</span> <span class="o">=</span> <span class="nx">balance</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">account1</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="kd">var</span> <span class="nx">account2</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="nx">deposit</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">account1</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]);</span>
+<span class="nx">deposit</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">account2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">account1</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">account2</span><span class="p">.</span><span class="nx">balance</span><span class="p">);</span></code></pre></figure>
+
+<p>Os dois métodos possuem o mesmo comportamento, você pode escolher o que mais lhe fizer sentido no momento. Se possuir um array, ou os argumentos são uma coleção utilize <em>apply</em>, caso contrário utilize <em>call</em>.</p>
+
+<h3 id="recapitulando">Recapitulando</h3>
+<p>Como podemos observar, JavaScript fornece diversas formas de invocarmos funções, e estas formas definem quem será o contexto da função.</p>
+
+<ul>
+  <li>
+    <p>Quando invocada como uma função simples, o contexto é o objeto global (window).</p>
+  </li>
+  <li>
+    <p>Quando invocada como um método, o contexto é o objeto ao qual o método pertence.</p>
+  </li>
+  <li>
+    <p>Quando invocada como construtor, é um objeto recém alocado.</p>
+  </li>
+  <li>
+    <p>E por fim quando invocada pelos métodos <em>apply()</em> e <em>call()</em>, o contexto pode ser o que quisermos.</p>
+  </li>
+</ul>
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="/funcoes-javascript-arguments/" class="btn" title="Funções JavaScript - Arguments">Previous</a>
+      
+      
+        <a href="/sublime-text-atalhos/" class="btn" title="Os melhores atalhos do Sublime">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

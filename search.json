@@ -1,0 +1,111 @@
+[
+	
+		{
+		  "title"      : "Faça o build do seu projeto com Travis CI",
+		  "category"   : "",
+      "tags"       : "travis-ci, integração-continua, and ferramentas",
+		  "url"        : "/faca-o-build-do-seu-projeto-com-travis-ci/",
+		  "date"       : "2017-03-14 11:00:00 -0300",
+		  "shortdate"  : "March 14, 2017"
+		} ,
+	
+		{
+		  "title"      : "VSCode - Meu novo editor de texto",
+		  "category"   : "",
+      "tags"       : "vscode, texteditor, and produtividade",
+		  "url"        : "/vscode-meu-novo-editor-de-textos/",
+		  "date"       : "2016-10-10 11:00:00 -0300",
+		  "shortdate"  : "October 10, 2016"
+		} ,
+	
+		{
+		  "title"      : "Generics - Por baixo dos panos",
+		  "category"   : "",
+      "tags"       : "java and generics",
+		  "url"        : "/generics-por-baixo-dos-panos/",
+		  "date"       : "2016-05-20 11:00:00 -0300",
+		  "shortdate"  : "May 20, 2016"
+		} ,
+	
+		{
+		  "title"      : "Generics indo além - Wildcards",
+		  "category"   : "",
+      "tags"       : "java and generics",
+		  "url"        : "/generics-indo-alem-wildcards/",
+		  "date"       : "2016-02-02 12:00:00 -0200",
+		  "shortdate"  : "February 02, 2016"
+		} ,
+	
+		{
+		  "title"      : "Introdução à Generics",
+		  "category"   : "",
+      "tags"       : "java and generics",
+		  "url"        : "/introducao-a-generics/",
+		  "date"       : "2016-01-22 12:00:00 -0200",
+		  "shortdate"  : "January 22, 2016"
+		} ,
+	
+		{
+		  "title"      : "Slack",
+		  "category"   : "",
+      "tags"       : "produtividade, chatops, and devops",
+		  "url"        : "/slack/",
+		  "date"       : "2015-12-30 12:00:00 -0200",
+		  "shortdate"  : "December 30, 2015"
+		} ,
+	
+		{
+		  "title"      : "Agregando conhecimento com Podcasts",
+		  "category"   : "",
+      "tags"       : "podcast",
+		  "url"        : "/agregando-conhecimento-com-podcasts/",
+		  "date"       : "2015-11-11 12:00:00 -0200",
+		  "shortdate"  : "November 11, 2015"
+		} ,
+	
+		{
+		  "title"      : "Os melhores atalhos do Sublime",
+		  "category"   : "",
+      "tags"       : "sublimetext, texteditor, and produtividade",
+		  "url"        : "/sublime-text-atalhos/",
+		  "date"       : "2015-08-10 11:00:00 -0300",
+		  "shortdate"  : "August 10, 2015"
+		} ,
+	
+		{
+		  "title"      : "Funções JavaScript - This",
+		  "category"   : "",
+      "tags"       : "javascript and funcoes",
+		  "url"        : "/funcoes-javascript-this/",
+		  "date"       : "2015-03-30 12:00:00 -0300",
+		  "shortdate"  : "March 30, 2015"
+		} ,
+	
+		{
+		  "title"      : "Funções JavaScript - Arguments",
+		  "category"   : "",
+      "tags"       : "javascript and funcoes",
+		  "url"        : "/funcoes-javascript-arguments/",
+		  "date"       : "2015-03-02 11:00:00 -0300",
+		  "shortdate"  : "March 02, 2015"
+		} ,
+	
+		{
+		  "title"      : "Funções JavaScript - Como Funciona O Escopo",
+		  "category"   : "",
+      "tags"       : "javascript and funcoes",
+		  "url"        : "/funcoes-javascript-como-funciona-o-escopo/",
+		  "date"       : "2015-02-23 11:20:00 -0300",
+		  "shortdate"  : "February 23, 2015"
+		} ,
+	
+		{
+		  "title"      : "Hospendando seu Blog Na AWS por Centavos",
+		  "category"   : "",
+      "tags"       : "aws, cloud, blog, and jekyll",
+		  "url"        : "/hospedando-seu-blog-na-aws-por-centavos/",
+		  "date"       : "2015-02-12 09:00:00 -0200",
+		  "shortdate"  : "February 12, 2015"
+		} 
+	
+]

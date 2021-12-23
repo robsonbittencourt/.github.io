@@ -1,0 +1,361 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Introdução à Generics &#8211; RandomDev</title>
+<meta name="description" content="Há alguns dias fiz um curso da Pluralsight sobre Generics. O curso é muito bom, se você tem oportunidade de faze-lo aproveite. Decidi compilar algumas das lições que aprendi, aqui no blog. Vou dividir em dois posts para não ficar muito maçante. Este será uma introdução e no próximo irei apresentar algumas funcionalidades mais avançadas.
+
+">
+<meta name="keywords" content="java, generics">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Introdução à Generics">
+<meta name="twitter:description" content="Há alguns dias fiz um curso da Pluralsight sobre Generics. O curso é muito bom, se você tem oportunidade de faze-lo aproveite. Decidi compilar algumas das lições que aprendi, aqui no blog. Vou dividir em dois posts para não ficar muito maçante. Este será uma introdução e no próximo irei apresentar algumas funcionalidades mais avançadas.
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introdução à Generics">
+<meta property="og:description" content="Há alguns dias fiz um curso da Pluralsight sobre Generics. O curso é muito bom, se você tem oportunidade de faze-lo aproveite. Decidi compilar algumas das lições que aprendi, aqui no blog. Vou dividir em dois posts para não ficar muito maçante. Este será uma introdução e no próximo irei apresentar algumas funcionalidades mais avançadas.
+
+">
+<meta property="og:url" content="/introducao-a-generics/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/introducao-a-generics/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#java" title="Pages tagged java">java</a>&nbsp;&bull;&nbsp;<a href="/tags/#generics" title="Pages tagged generics">generics</a></span>
+        
+          <h1 class="entry-title">Introdução à Generics</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2016-01-22T12:00:00-02:00"><i class="fa fa-calendar-o"></i> 22/01/2016</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=java,generics&amp;text=Introdução%20à%20Generics&amp;url=/introducao-a-generics/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/introducao-a-generics/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/introducao-a-generics/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2016-01-22-introducao-a-generics.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <p>Há alguns dias fiz um curso da <a href="https://app.pluralsight.com/library/courses/java-generics/table-of-contents">Pluralsight sobre Generics</a>. O curso é muito bom, se você tem oportunidade de faze-lo aproveite. Decidi compilar algumas das lições que aprendi, aqui no blog. Vou dividir em dois posts para não ficar muito maçante. Este será uma introdução e no próximo irei apresentar algumas funcionalidades mais avançadas.</p>
+
+<h3 id="generics">Generics</h3>
+
+<p><em>Generics</em> é uma funcionalidade introduzida na versão 5 do Java. Seu objetivo é fornecer ao desenvolvedor a capacidade de escrever código que seja reutilizável e ao mesmo tempo com a segurança da vericação de tipos em tempo de compilação. As APIs da própria linguagem utilizam largamente estas funcionalidades, como é o caso das conhecidas interfaces <em>List</em> e <em>Map</em> por exemplo.</p>
+
+<h3 id="por-que-utilizar">Por que utilizar?</h3>
+
+<p>Nas versões anteriores a 5 onde não havia a funcionalidade de <em>Generics</em>, códigos como abaixo eram comuns:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span></code></pre></figure>
+
+<p>Ao recuperar valores de uma lista, sempre era necessário realizar o <em>cast</em> para um determinado tipo. Isso devido ao fato que a interface <em>List</em> recebia um <em>Object</em> como parâmetro em seu método <em>add</em>. Como em Java todos os tipos extendem <em>Object</em>, qualquer tipo poderia ser inserido em uma lista. Em um primeiro momento nenhum problema. O código compila corretamente, mas se aumentarmos um pouco nosso cenário poderemos observar situações deste tipo:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;2&quot;</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;3&quot;</span><span class="o">);</span>
+
+<span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+
+<span class="n">out</span> <span class="o">-</span> <span class="n">Exception</span> <span class="n">in</span> <span class="n">thread</span> <span class="s">&quot;main&quot;</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">ClassCastException</span><span class="o">:</span>
+ <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">Integer</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">cast</span> <span class="n">to</span> <span class="n">java</span><span class="o">.</span><span class="na">lang</span><span class="o">.</span><span class="na">String</span></code></pre></figure>
+
+<p>Ou seja, não é possível ter segurança de qual tipo será retornado pela lista em tempo de compilação. Erros poderão ser percebidos somente em tempo de execução. Com o uso de <em>Generics</em> podemos resolver este problema.</p>
+
+<h3 id="classes-e-interfaces">Classes e Interfaces</h3>
+
+<p>A interface <em>List</em> se tornou genérica apartir do Java 5, e o problema mostrado anteriormente pode ser evitado. Mas vou criar minha própria (e simples) classe de lista para exemplificar melhor a explicação.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyAwesomeList</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+	
+   <span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">elements</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+
+   <span class="kd">public</span> <span class="n">T</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span> <span class="n">elements</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+   <span class="o">}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">T</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+      <span class="kt">int</span> <span class="n">position</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="na">length</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+	
+      <span class="n">elements</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copyOf</span><span class="o">(</span><span class="n">elements</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+	
+      <span class="n">elements</span><span class="o">[</span><span class="n">position</span><span class="o">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+   <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Uma classe é considerada genérica, quando possui ao lado de seu nome um identificador como este: <strong>&lt;T&gt;</strong>. No exemplo a letra T representa um tipo que será inserido ao instanciar a classe <em>MyAwesomeList</em>. A letra T é apenas uma convenção para <em>type</em>, qualquer identificador pode ser utilizado.</p>
+
+<p>Ao longo do código da classe este tipo estará disponível e poderá ser utilizado na criação de variáveis, retorno de métodos (get), ou ainda em parâmetro de métodos (add). Isso faz com que minha classe possa ser utilizada com qualquer tipo, mas somente um tipo nos elementos, uma vez que a lista seja instânciada. Alguns exemplos:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">MyAwesomeList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyAwesomeList</span><span class="o">&lt;&gt;();</span>
+
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;2&quot;</span><span class="o">);</span>
+
+<span class="c1">//Não compila. </span>
+<span class="c1">//The method add(String) in the type MyAwesomeList&lt;String&gt;</span>
+<span class="c1">//is not applicable for the arguments (int)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">MyAwesomeList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyAwesomeList</span><span class="o">&lt;&gt;();</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;1&quot;</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;2&quot;</span><span class="o">);</span>
+
+<span class="c1">//Não há necessidade de cast, pois o compilador sabe que é uma String</span>
+<span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span></code></pre></figure>
+
+<h3 id="generics-em-métodos">Generics em Métodos</h3>
+
+<p>Não são somente as classes e interfaces que possuem a flexibilidade dos <em>Generics</em>, também podemos criar métodos genéricos. A sintaxe é um pouco diferente:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">T</span> <span class="nf">min</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">,</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">comparator</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">if</span> <span class="o">(</span><span class="n">values</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalArgumentException</span><span class="o">(</span><span class="s">&quot;List is empty, cannot find minimum&quot;</span><span class="o">);</span>
+   <span class="o">}</span>
+	
+   <span class="n">T</span> <span class="n">lowestElement</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+	
+   <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">values</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+      <span class="n">T</span> <span class="n">element</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+		
+      <span class="k">if</span> <span class="o">(</span><span class="n">comparator</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">element</span><span class="o">,</span> <span class="n">lowestElement</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+         <span class="n">lowestElement</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+      <span class="o">}</span>
+   <span class="o">}</span>
+	
+   <span class="k">return</span> <span class="n">lowestElement</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Como pode-se perceber a sintaxe é um pouco diferente. Assim como nas classes genéricas, temos que ter a declaração do tipo. Ela fica entre os modificadores de acesso do método e seu tipo de retorno. O tipo pode ser usado como argumento e nas variáveis internas do método, assim como no retorno.</p>
+
+<p>O retorno no exemplo pode causar um pouco de confusão, mas para deixar claro o primeiro T (<strong>&lt;T&gt;</strong>) está declarando o tipo genérico do método, enquanto o segundo é seu retorno. Ou seja estamos dizendo que o mesmo tipo que passarmos para invocar o método, será o tipo que irá retornar.</p>
+
+<p>É importante ressaltar que quando utilizado em métodos, o tipo genérico pertence ao escopo daquele método. Ou seja, não é possível utilizar o tipo em outros métodos. Se a classe também é genérica, e possui um identificador de tipo igual ao do método, o do método vai sobreescrever o da classe.</p>
+
+<p>No próximo post irei apresentar outros assuntos importantes sobre <em>Generics</em>: <em>Wildcards</em>, <em>RawTypes</em> e <em>Erasure</em>.</p>
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="/slack/" class="btn" title="Slack">Previous</a>
+      
+      
+        <a href="/generics-indo-alem-wildcards/" class="btn" title="Generics indo além - Wildcards">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

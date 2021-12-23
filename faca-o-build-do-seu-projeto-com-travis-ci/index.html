@@ -1,0 +1,317 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Faça o build do seu projeto com Travis CI &#8211; RandomDev</title>
+<meta name="description" content="Irei começar uma série de três posts mostrando algumas ferramentas gratuitas que temos disponíveis para projetos open-source. Este post irá mostrar a ferramenta de integração contínua Travis CI. Os próximos dois serão sobre qualidade de código e deploy de aplicações.
+
+">
+<meta name="keywords" content="travis-ci, integração-continua, ferramentas">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Faça o build do seu projeto com Travis CI">
+<meta name="twitter:description" content="Irei começar uma série de três posts mostrando algumas ferramentas gratuitas que temos disponíveis para projetos open-source. Este post irá mostrar a ferramenta de integração contínua Travis CI. Os próximos dois serão sobre qualidade de código e deploy de aplicações.
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Faça o build do seu projeto com Travis CI">
+<meta property="og:description" content="Irei começar uma série de três posts mostrando algumas ferramentas gratuitas que temos disponíveis para projetos open-source. Este post irá mostrar a ferramenta de integração contínua Travis CI. Os próximos dois serão sobre qualidade de código e deploy de aplicações.
+
+">
+<meta property="og:url" content="/faca-o-build-do-seu-projeto-com-travis-ci/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/faca-o-build-do-seu-projeto-com-travis-ci/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#travis-ci" title="Pages tagged travis-ci">travis-ci</a>&nbsp;&bull;&nbsp;<a href="/tags/#integração-continua" title="Pages tagged integração-continua">integração-continua</a>&nbsp;&bull;&nbsp;<a href="/tags/#ferramentas" title="Pages tagged ferramentas">ferramentas</a></span>
+        
+          <h1 class="entry-title">Faça o build do seu projeto com Travis CI</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2017-03-14T11:00:00-03:00"><i class="fa fa-calendar-o"></i> 14/03/2017</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=travis-ci,integração-continua,ferramentas&amp;text=Faça%20o%20build%20do%20seu%20projeto%20com%20Travis%20CI&amp;url=/faca-o-build-do-seu-projeto-com-travis-ci/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/faca-o-build-do-seu-projeto-com-travis-ci/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/faca-o-build-do-seu-projeto-com-travis-ci/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2017-03-14-faca-o-build-do-seu-projeto-com-travis-ci.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <p>Irei começar uma série de três posts mostrando algumas ferramentas gratuitas que temos disponíveis para projetos open-source. Este post irá mostrar a ferramenta de integração contínua Travis CI. Os próximos dois serão sobre qualidade de código e deploy de aplicações.</p>
+
+<p>##Travis CI</p>
+
+<p>Travis CI (daqui para frente chamado de apensas Travis) é um serviço muito interessante que possibilita executarmos tasks como build, testes e deploy nossas aplicações. Na verdade ele não se limita a isso, é possível criar scripts para fazer qualquer coisa que seria possível em um script bash.</p>
+
+<p>Além disso ele se integra com o seu código no GitHub. Uma vez configurado, a cada commit um build é disparado pelo Travis de forma automática. Este processo de execução do build e testes a cada commit é conhecido como Integração Contínua. Não escrevi sobre isso ainda, mas você pode dar uma conferida <a href="http://blog.caelum.com.br/integracao-continua/">neste post da Caelum</a>.</p>
+
+<p>Mas e quanto custa tudo isso? Nada para projetos open-source, totalmente de graça. Segundo o site: <em>“Testing your open source project is 10000% free. Seriously. Always. We like to think of it as our way of giving back to a community that gives us so much as well.”</em> Se você ou sua empresa possui projetos fechados, eles oferecem serviços pagos e a privacidade necessária.</p>
+
+<p>##Iniciando</p>
+
+<p>Criar uma conta no Travic CI é muito fácil. Use seu próprio acesso do Github, dê as permissões necessárias e pronto, todos seus projetos já estarão aparecendo na listagem.</p>
+
+<figure>
+	<img src="/images/2017-03-13-travis/1.png" alt="Lista de projetos no Travis" />
+</figure>
+
+<p>Caso algum não esteja é só clicar em Sync account que ele irá sincronizar novamente com o Github. Escolha um projeto que você deseja habilitar o build e ligue o botão correspondente.</p>
+
+<p>Ao clicar na engrenagem do projeto, a tela de configurações é aberta. Aqui você pode realizar algumas configurações, como por exemplo, se todos os commits devem gerar um commit ou somente pull requests. Além disso é nesta tela que podemos criar variáveis de ambiente para utilizar nos builds. Entrarei em mais detalhes em um próximo post quando precisarmos. A princípio as configurações padrão são suficientes para prosseguirmos.</p>
+
+<figure>
+	<img src="/images/2017-03-13-travis/2.png" alt="Tela de configurações" />
+</figure>
+
+<h2 id="o-arquivo-travisyml">O arquivo .travis.yml</h2>
+<p>Você pode estar se perguntando: como o Travis vai saber fazer o build do meu projeto e rodar meus testes? Simples, vamos dizer para ele fazer isso através de um arquivo de configuração que por padrão deve se chamar .travis.yml.
+Neste arquivo vamos detalhar os passos que o Travis deve realizar para fazer o nosso build. <em>Eu sabia que tinha alguma pegadinha, agora vou ter que fazer várias configurações complicadas!</em>.</p>
+
+<p>Se enganou amiguinho. O Travis já utiliza várias configurações default, como comandos de build e testes para diversas linguagens. Vou mostrar um exemplo para realizar o build e execução dos testes de um projeto Java que utiliza Maven.</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span> 
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">java</span></code></pre></figure>
+
+<p>Sim somente isso. Por padrão ele vai executar as tasks do Maven de build e testes. Claro que se o seu build tiver características diferentes outras configurações serão necessárias. Por exemplo, no caso anterior se quisermos definir uma versão específica do Java devemos adicionar a opção:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">jdk</span><span class="p p-Indicator">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">oraclejdk8</span></code></pre></figure>
+
+<p>Porém notem que tudo é muito declarativo e simples. Existem diversas opções para várias linguagens diferentes. Você pode encontrá-las <a href="https://docs.travis-ci.com/user/customizing-the-build">aqui.</a></p>
+
+<h2 id="build">Build</h2>
+
+<p>Agora que temos o arquivo basta fazer o commit dele no repositório e o Travis irá identificar a mudança e iniciar o build automaticamente.</p>
+
+<figure>
+	<img src="/images/2017-03-13-travis/3.png" alt="Tela mostrando a saída do build" />
+</figure>
+
+<p>Caso nosso build tivesse falhado, um e-mail teria sido enviado notificando. Um ponto interessante, é que o build sempre é executado em um ambiente isolado utilizando um container Docker. Dessa forma podemos ter a garantia que o ambiente de build sempre é idêntico e que não guarda nenhum tipo de estado.</p>
+
+<h2 id="concluindo">Concluindo</h2>
+<p>Travis é uma ótima ferramenta para utilizarmos em nossos projetos open-source. Ele traz mais garantia e segurança para o nosso projeto, fornecendo feedback frequente sobre o estado do projeto. Esse feedback pode ser inclusive exibido para outras pessoas através de uma badge com o status do build. Se você clicar nela, já será exibido um link para que você cole no README do seu projeto, mostrando o status do seu projeto para o mundo.</p>
+
+<p>Na sequência estarei mostrando mais algumas ferramentas e voltaremos a incrementar nosso build com o Travis. O código completo pode ser encontrado <a href="https://github.com/robsonbittencourt/app-tools-examples">nesta demo no GitHub</a></p>
+
+<p>Ficou com dúvidas? Escreva nos comentários. Até a próxima.</p>
+
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="/vscode-meu-novo-editor-de-textos/" class="btn" title="VSCode - Meu novo editor de texto">Previous</a>
+      
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>

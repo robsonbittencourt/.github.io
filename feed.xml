@@ -1,0 +1,1511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title type="text">RandomDev</title>
+<generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2021-12-23T11:20:25-03:00</updated>
+<id>/</id>
+<author>
+  <name>Robson Bittencourt</name>
+  <uri>/</uri>
+  <email>robson.luizv@gmail.com</email>
+</author>
+
+
+<entry>
+  <title type="html"><![CDATA[Faça o build do seu projeto com Travis CI]]></title>
+  <link rel="alternate" type="text/html" href="/faca-o-build-do-seu-projeto-com-travis-ci/" />
+  <id>/faca-o-build-do-seu-projeto-com-travis-ci</id>
+  <published>2017-03-14T11:00:00-03:00</published>
+  <updated>2017-03-14T11:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;Irei começar uma série de três posts mostrando algumas ferramentas gratuitas que temos disponíveis para projetos open-source. Este post irá mostrar a ferramenta de integração contínua Travis CI. Os próximos dois serão sobre qualidade de código e deploy de aplicações.&lt;/p&gt;
+
+&lt;p&gt;##Travis CI&lt;/p&gt;
+
+&lt;p&gt;Travis CI (daqui para frente chamado de apensas Travis) é um serviço muito interessante que possibilita executarmos tasks como build, testes e deploy nossas aplicações. Na verdade ele não se limita a isso, é possível criar scripts para fazer qualquer coisa que seria possível em um script bash.&lt;/p&gt;
+
+&lt;p&gt;Além disso ele se integra com o seu código no GitHub. Uma vez configurado, a cada commit um build é disparado pelo Travis de forma automática. Este processo de execução do build e testes a cada commit é conhecido como Integração Contínua. Não escrevi sobre isso ainda, mas você pode dar uma conferida &lt;a href=&quot;http://blog.caelum.com.br/integracao-continua/&quot;&gt;neste post da Caelum&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Mas e quanto custa tudo isso? Nada para projetos open-source, totalmente de graça. Segundo o site: &lt;em&gt;“Testing your open source project is 10000% free. Seriously. Always. We like to think of it as our way of giving back to a community that gives us so much as well.”&lt;/em&gt; Se você ou sua empresa possui projetos fechados, eles oferecem serviços pagos e a privacidade necessária.&lt;/p&gt;
+
+&lt;p&gt;##Iniciando&lt;/p&gt;
+
+&lt;p&gt;Criar uma conta no Travic CI é muito fácil. Use seu próprio acesso do Github, dê as permissões necessárias e pronto, todos seus projetos já estarão aparecendo na listagem.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2017-03-13-travis/1.png&quot; alt=&quot;Lista de projetos no Travis&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Caso algum não esteja é só clicar em Sync account que ele irá sincronizar novamente com o Github. Escolha um projeto que você deseja habilitar o build e ligue o botão correspondente.&lt;/p&gt;
+
+&lt;p&gt;Ao clicar na engrenagem do projeto, a tela de configurações é aberta. Aqui você pode realizar algumas configurações, como por exemplo, se todos os commits devem gerar um commit ou somente pull requests. Além disso é nesta tela que podemos criar variáveis de ambiente para utilizar nos builds. Entrarei em mais detalhes em um próximo post quando precisarmos. A princípio as configurações padrão são suficientes para prosseguirmos.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2017-03-13-travis/2.png&quot; alt=&quot;Tela de configurações&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h2 id=&quot;o-arquivo-travisyml&quot;&gt;O arquivo .travis.yml&lt;/h2&gt;
+&lt;p&gt;Você pode estar se perguntando: como o Travis vai saber fazer o build do meu projeto e rodar meus testes? Simples, vamos dizer para ele fazer isso através de um arquivo de configuração que por padrão deve se chamar .travis.yml.
+Neste arquivo vamos detalhar os passos que o Travis deve realizar para fazer o nosso build. &lt;em&gt;Eu sabia que tinha alguma pegadinha, agora vou ter que fazer várias configurações complicadas!&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Se enganou amiguinho. O Travis já utiliza várias configurações default, como comandos de build e testes para diversas linguagens. Vou mostrar um exemplo para realizar o build e execução dos testes de um projeto Java que utiliza Maven.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; 
+  &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;java&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Sim somente isso. Por padrão ele vai executar as tasks do Maven de build e testes. Claro que se o seu build tiver características diferentes outras configurações serão necessárias. Por exemplo, no caso anterior se quisermos definir uma versão específica do Java devemos adicionar a opção:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;jdk&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;oraclejdk8&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Porém notem que tudo é muito declarativo e simples. Existem diversas opções para várias linguagens diferentes. Você pode encontrá-las &lt;a href=&quot;https://docs.travis-ci.com/user/customizing-the-build&quot;&gt;aqui.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;build&quot;&gt;Build&lt;/h2&gt;
+
+&lt;p&gt;Agora que temos o arquivo basta fazer o commit dele no repositório e o Travis irá identificar a mudança e iniciar o build automaticamente.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2017-03-13-travis/3.png&quot; alt=&quot;Tela mostrando a saída do build&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Caso nosso build tivesse falhado, um e-mail teria sido enviado notificando. Um ponto interessante, é que o build sempre é executado em um ambiente isolado utilizando um container Docker. Dessa forma podemos ter a garantia que o ambiente de build sempre é idêntico e que não guarda nenhum tipo de estado.&lt;/p&gt;
+
+&lt;h2 id=&quot;concluindo&quot;&gt;Concluindo&lt;/h2&gt;
+&lt;p&gt;Travis é uma ótima ferramenta para utilizarmos em nossos projetos open-source. Ele traz mais garantia e segurança para o nosso projeto, fornecendo feedback frequente sobre o estado do projeto. Esse feedback pode ser inclusive exibido para outras pessoas através de uma badge com o status do build. Se você clicar nela, já será exibido um link para que você cole no README do seu projeto, mostrando o status do seu projeto para o mundo.&lt;/p&gt;
+
+&lt;p&gt;Na sequência estarei mostrando mais algumas ferramentas e voltaremos a incrementar nosso build com o Travis. O código completo pode ser encontrado &lt;a href=&quot;https://github.com/robsonbittencourt/app-tools-examples&quot;&gt;nesta demo no GitHub&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ficou com dúvidas? Escreva nos comentários. Até a próxima.&lt;/p&gt;
+
+
+  &lt;p&gt;&lt;a href=&quot;/faca-o-build-do-seu-projeto-com-travis-ci/&quot;&gt;Faça o build do seu projeto com Travis CI&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on March 14, 2017.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[VSCode - Meu novo editor de texto]]></title>
+  <link rel="alternate" type="text/html" href="/vscode-meu-novo-editor-de-textos/" />
+  <id>/vscode-meu-novo-editor-de-textos</id>
+  <published>2016-10-10T11:00:00-03:00</published>
+  <updated>2016-10-10T11:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;Quem trabalha comigo sabe que sou fã do Sublime Text, até já escrevi um post sobre os &lt;a href=&quot;http://rbittencourt.com/sublime-text-atalhos/&quot;&gt;melhores atalhos&lt;/a&gt;. Isso fez com que eu demorasse a dar uma chance para o &lt;a href=&quot;https://code.visualstudio.com&quot;&gt;Visual Studio Code&lt;/a&gt; (VSCode daqui para frente). Essa semana resolvi testar o tão falado editor de texto da Microsoft, com um certo preconceito ainda, e o Sublime acabou perdendo mais um usuário.&lt;/p&gt;
+
+&lt;p&gt;Na primeira interação as coisas parecem um pouco estranhas, fora do lugar. Mas em 10 minutos já estava me impressionando com as facilidades que o editor oferece. Abaixo vou falar sobre os principais destaques na minha opinião.&lt;/p&gt;
+
+&lt;h3 id=&quot;free-e-open-source&quot;&gt;Free e Open Source&lt;/h3&gt;
+
+&lt;p&gt;Você pode não saber (é claro que sabe xD toda hora ele lhe alerta) mas o Sublime Text é um editor pago, ou seja para utilizá-lo dentro da lei você precisa de uma licença. Além disso seu código fonte é fechado.&lt;/p&gt;
+
+&lt;p&gt;Aqui entram os dois primeiros destaques que percebi. O VSCode é free e open source, &lt;a href=&quot;https://github.com/Microsoft/vscode&quot;&gt;seu código está no Github&lt;/a&gt; possuindo uma comunidade bastante ativa ao redor.&lt;/p&gt;
+
+&lt;p&gt;Percebe-se analisando o repositório que o editor está em constante evolução. É possível até baixar a &lt;a href=&quot;https://code.visualstudio.com/insiders&quot;&gt;versão do dia atual&lt;/a&gt; o que eles chamam de Insiders, para dar feedback sobre as novas funcionalidades e possíveis bugs.&lt;/p&gt;
+
+&lt;h3 id=&quot;debugging&quot;&gt;Debugging&lt;/h3&gt;
+
+&lt;p&gt;Não sou dev Node, mas venho estudando bastante nos últimos tempos. Para mim sempre foi chato debuggar. No início enchia de &lt;em&gt;console.log&lt;/em&gt;, depois descobri o debugger do próprio Node, mas ainda não era legal.&lt;/p&gt;
+
+&lt;p&gt;Por isso me espantei quando vi o debugger do VSCode.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/1.png&quot; alt=&quot;O debugging no VSCode&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Como pode-se perceber na imagem, ele lhe dá tudo aquilo que você está acostumado a ter em IDEs, breakpoints, watchers, callstack, facilitando o debugging.&lt;/p&gt;
+
+&lt;h3 id=&quot;git&quot;&gt;Git&lt;/h3&gt;
+
+&lt;p&gt;Outra feature interessante, é a integração com o Git. De forma fácil você consegue visualizar os arquivos modificados em seu repositório. Além disso é possível adicionar e remover da área de stage, reverter e commitar. Ainda prefiro o terminal, para estas tarefas mais corriqueiras, mas se você for meio avesso ao terminal vai gostar.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/2.png&quot; alt=&quot;Projeto Git no VSCode&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Ainda sobre Git, o maior destaque fica por conta do diff de arquivos. Simplesmente funciona como você espera que ele funcione.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/3.png&quot; alt=&quot;Diff de mudanças no VSCode&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;intellisense&quot;&gt;IntelliSense&lt;/h3&gt;
+&lt;p&gt;O IntelliSense fornece diversas informações sobre o contexto do arquivo que está aberto no VSCode. Por exemplo em um arquivo Javascript, ele lhe dará informações sobre as funções e seus parâmetros, além de &lt;em&gt;autocomplete&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/6.gif&quot; alt=&quot;IntelliSense exibindo as funcções&quot; /&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;em&gt;Fonte:https://code.visualstudio.com/docs/editor/intellisense&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;terminal&quot;&gt;Terminal&lt;/h3&gt;
+
+&lt;p&gt;Em casa tenho o Ubuntu como sistema operacional, por isso utilizo com frequência o terminal. O VSCode permite que você o utilize sem sair do editor. Não precisar alternar de aplicativo melhora a produtividade. Para quem gosta de atalhos, &lt;em&gt;ctrl+’&lt;/em&gt; abre ou fecha o terminal.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/4.png&quot; alt=&quot;Utilizando o terminal diretamente no VSCode&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;extensões&quot;&gt;Extensões&lt;/h3&gt;
+
+&lt;p&gt;Este é um ponto que eu gosto muito no Sublime, seria difícil migrar para o VSCode se ele não fosse extensível, felizmente é. Existem extensões de todos os tipos, debuggers específicos, atalhos para determinadas linguagens ou até que adicionam funcionalidades ao VSCode. Existe um &lt;a href=&quot;https://marketplace.visualstudio.com/VSCode&quot;&gt;marketplace na web&lt;/a&gt; mas o do próprio editor é suficiente. Você também pode escrever suas próprias extensões e publicá-las no marketplace para que outras pessoas utilizem.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-10-10-vscode/5.png&quot; alt=&quot;Extensões no VSCode&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h3 id=&quot;desvantagens&quot;&gt;Desvantagens&lt;/h3&gt;
+
+&lt;p&gt;Até agora a única desvantagem que vi no VSCode em relação ao Sublime é o tempo de inicialização. O Sublime é muito rápido nesse quesito, enquanto o VSCode leva uns 4 segundos para abrir. Não sou aficionado por estes números, ao abrir a primeira vez o editor para mim nem faz diferença este tempo. O problema começa a incomodar na troca constante de projetos. Mas mesmo com este problema, decidi seguir utilizando o VSCode, espero que o melhorem com o tempo.&lt;/p&gt;
+
+&lt;p&gt;Conhece outros problemas, ou discorda de algo que eu escrevi, deixe um comentário e vamos conversar.&lt;/p&gt;
+
+&lt;h3 id=&quot;dicas-e-links&quot;&gt;Dicas e links&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://code.visualstudio.com/download&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Microsoft/vscode&quot;&gt;Repositório oficial&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Microsoft/vscode-tips-and-tricks&quot;&gt;VS Code Tips and Tricks&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.hongkiat.com/blog/key-binding-management-visual-studio-code/&quot;&gt;Visual Studio Code: Increasing Productivity via Key Binding Management&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=fkM9jCRBwSs&quot;&gt;Best of Visual Studio Code: Tips and Tricks&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/vscode-meu-novo-editor-de-textos/&quot;&gt;VSCode - Meu novo editor de texto&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on October 10, 2016.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Generics - Por baixo dos panos]]></title>
+  <link rel="alternate" type="text/html" href="/generics-por-baixo-dos-panos/" />
+  <id>/generics-por-baixo-dos-panos</id>
+  <published>2016-05-20T11:00:00-03:00</published>
+  <updated>2016-05-20T11:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;Demorei para escrever este último post da série sobre &lt;em&gt;Generics&lt;/em&gt;, mas saiu. No &lt;a href=&quot;http://rbittencourt.com/generics-indo-alem-wildcards/&quot;&gt;post anterior&lt;/a&gt; falei sobre &lt;em&gt;Wildcards&lt;/em&gt; e como eles possibilitam a escrita de códigos mais flexíveis.&lt;/p&gt;
+
+&lt;p&gt;Neste post, iremos descer um pouco o nível e entender alguns aspectos sobre como o mecanismo de &lt;em&gt;Generics&lt;/em&gt; funciona por baixo dos panos.&lt;/p&gt;
+
+&lt;h3 id=&quot;raw-types&quot;&gt;Raw Types&lt;/h3&gt;
+
+&lt;p&gt;As versões anteriores a 1.5 do Java, não possuíam os recursos de &lt;em&gt;Generics&lt;/em&gt; que vimos nos posts anteriores. Era comum vermos código como o abaixo nestas versões:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;t&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;d&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;f&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;A plataforma Java é conhecida por sua estabilidade, e largamente utilizada no ramo empresarial. Portanto com o lançamento da &lt;em&gt;feature&lt;/em&gt; de tipos genéricos, classes que ganharam tipos genéricos deveriam continuar compilando para oferecer esta retrocompatibilidade.&lt;/p&gt;
+
+&lt;p&gt;O código abaixo, apesar de não possuir um tipo genérico, compila em versões posteriores a 1.4, porém com um aviso.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//List is a raw type. References to generic type List&amp;lt;E&amp;gt; should be parameterized&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Isso possibilita que códigos legados possam migrar para versões recentes do Java. Porém o uso de &lt;em&gt;Raw Types&lt;/em&gt; é desencorajado pois abre espaço para problemas como este:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;listWithoutType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;listWithoutType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stringList&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;listWithoutType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stringList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;));&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Vamos entender mais para frente o porque isto ser permitido. Porém com o devido cuidado isso pode ser um ponto positivo, pois permite iteração entre código pré e pós &lt;em&gt;Generics&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sumNumbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+   &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sumNumbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;Iterator&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iterator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;iterator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hasNext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iterator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Portanto os &lt;em&gt;Raw Types&lt;/em&gt; foram importantes para que a compatibilidade entre versões fosse mantida. Mas como o compilador trata essas ocasiões? Vamos para o último e talvez mais complexo tópico desta série: &lt;strong&gt;&lt;em&gt;Erasure&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;erasure&quot;&gt;Erasure&lt;/h3&gt;
+
+&lt;p&gt;Vou contar uma coisa que talvez lhe pareça estranho a princípio.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Em Java tipos genéricos não existem em tempo de execução.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Após compilado, esses tipos são tratados de forma diferente de como os escrevemos. Seguem alguns exemplos do que acontece com os tipos após a compilação.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;Compilação:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Execução&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;
+
+&lt;span class=&quot;nl&quot;&gt;Compilação:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Execução&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;
+
+&lt;span class=&quot;nl&quot;&gt;Compilação:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Execução&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;
+
+&lt;span class=&quot;nl&quot;&gt;Compilação:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Foo&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Está duvidando? Vamos fazer uma verificação mais profunda. Observe a seguinte classe:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Erasure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comparable&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;unbounded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lists&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bounded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Agora utilizando o comando &lt;em&gt;javap&lt;/em&gt; vamos decompilar o .class gerado.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2016-05-23-generics/1.png&quot; alt=&quot;console aws&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Como podemos observar, no campo &lt;em&gt;descriptor&lt;/em&gt;, os verdadeiros tipos que são interpretados pela JVM, não são genéricos. Os tipos genéricos são removidos, os &lt;em&gt;unbounded parameters&lt;/em&gt; se tornam &lt;em&gt;Object&lt;/em&gt;, e os &lt;em&gt;bounded parameters&lt;/em&gt; se tornam o tipo que estendem, nesse caso &lt;em&gt;Comparable&lt;/em&gt;. Além disso podemos observar no método &lt;em&gt;lists&lt;/em&gt;, que um &lt;em&gt;checkcast&lt;/em&gt; é feito, para garantir que o parâmetro passado é uma &lt;em&gt;String&lt;/em&gt;. Esse comportamento traz algumas implicações, e é importante conhece-las.&lt;/p&gt;
+
+&lt;p&gt;####Sobrecarga de métodos&lt;/p&gt;
+
+&lt;p&gt;Por conta do mecanismo de &lt;em&gt;Erasure&lt;/em&gt;, métodos sobrecarregados, onde a única diferença é um tipo genérico não são válidos. Isso se deve ao fato que o compilador não saberia qual método chamar após a remoção do tipo genérico.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doSomething&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doSomething&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//Erasure of method doSomething(List&amp;lt;String&amp;gt;) is the same as another method in type TestClass&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;instanceof&quot;&gt;InstanceOf&lt;/h4&gt;
+
+&lt;p&gt;Outra consequência do uso de &lt;em&gt;Erasure&lt;/em&gt; é que não é possível utilizar &lt;em&gt;instanceOf&lt;/em&gt; com tipos genéricos, pois como vimos eles não existem em tempo de execução.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;equals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// Cannot perform instanceof check against parameterized type&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// TestClass&amp;lt;T&amp;gt;. Use the form TestClass&amp;lt;?&amp;gt; instead since further generic&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// type information will be erased at runtime&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;instanceof&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TestClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;exceptions&quot;&gt;Exceptions&lt;/h4&gt;
+
+&lt;p&gt;Também não é possível criar exceções genéricas, pois como não podemos utilizar &lt;em&gt;instanceOf&lt;/em&gt; o &lt;em&gt;catch&lt;/em&gt; do bloco &lt;em&gt;try/catch&lt;/em&gt; não conseguiria identificar o tipo da exceção. Em virtude disso o Java nem permite a criação desse tipo de &lt;em&gt;exception&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// The generic class UncompilableException&amp;lt;T&amp;gt; may not subclass&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// java.lang.Throwable&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;UncompilableException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;doSomething&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UncompilableException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+	  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UncompilableException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+	  	 &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+	  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h3&gt;
+
+&lt;p&gt;Chegamos ao fim desta série sobre &lt;em&gt;Generics&lt;/em&gt;. Espero que tenha sido útil, e esclarecido suas dúvidas sobre esta grande funcionalidade Java. Se ainda surgirem dúvidas fique a vontade para deixar um comentário.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/generics-por-baixo-dos-panos/&quot;&gt;Generics - Por baixo dos panos&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on May 20, 2016.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Generics indo além - Wildcards]]></title>
+  <link rel="alternate" type="text/html" href="/generics-indo-alem-wildcards/" />
+  <id>/generics-indo-alem-wildcards</id>
+  <published>2016-02-02T12:00:00-02:00</published>
+  <updated>2016-02-02T12:00:00-02:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;No &lt;a href=&quot;http://rbittencourt.com/introducao-a-generics/&quot;&gt;meu último post&lt;/a&gt; apresentei alguns conceitos básicos sobre &lt;em&gt;Generics&lt;/em&gt;. Vale reforçar que o conteúdo que será apresentado aqui, foi visto no curso da &lt;a href=&quot;https://app.pluralsight.com/library/courses/java-generics/table-of-contents&quot;&gt;Pluralsight sobre Generics&lt;/a&gt;. Não, não estou fazendo propaganda, é que o curso é bom mesmo, recomendo :)&lt;/p&gt;
+
+&lt;h3 id=&quot;variância&quot;&gt;Variância&lt;/h3&gt;
+
+&lt;p&gt;Antes de explicar o que são &lt;em&gt;Wildcards&lt;/em&gt; é necessário mostrar alguns detalhes sobre &lt;em&gt;arrays&lt;/em&gt; em Java. Variância é um conceito que se relaciona a como a herança entre classes se comporta na declaração de variáveis. Não vou me aprofundar neste assunto, mas &lt;a href=&quot;http://sergiotaborda.javabuilding.com/2015/04/variancia/&quot;&gt;este link&lt;/a&gt; traz uma ótima explicação sobre.&lt;/p&gt;
+
+&lt;p&gt;Por hora precisamos saber que &lt;em&gt;arrays&lt;/em&gt; em Java são covariantes, vamos entender o porquê.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Cat&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Dog&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+		
+&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Como pode-se perceber, é possível declarar um &lt;em&gt;array&lt;/em&gt; com o tipo da classe filha e atribuir à um &lt;em&gt;array&lt;/em&gt; do tipo da classe pai. Isso é conhecido como covariância, e traz alguns problemas como este:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+		
+&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+		
+&lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//compila pois Dog é um Animal&lt;/span&gt;
+		
+&lt;span class=&quot;c1&quot;&gt;// out - Exception in thread &amp;quot;main&amp;quot; java.lang.ArrayStoreException:&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// com.generics.lab.Dog at &lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// com.generics.lab.GenericTest.main(GenericTest.java:12)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;O &lt;em&gt;array&lt;/em&gt; é um tipo primitivo especial, não possui uma classe nem implementa uma interface, mas possui uma estrutura, e esta conhece o tipo que deve ser possível armazenar, por isso a exceção no exemplo foi lançada. Isso nos leva a perceber que &lt;em&gt;arrays&lt;/em&gt; não são muito seguros, por isso é recomendado o uso de listas.&lt;/p&gt;
+
+&lt;p&gt;As listas ao contrário dos &lt;em&gt;arrays&lt;/em&gt; são invariantes e só podem ser atribuídas a variáveis com o mesmo tipo genérico.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// não compila apesar de Dog ser um Animal&lt;/span&gt;
+		
+&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;otherDogs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// compila&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Isso torna o uso de listas mais seguro que &lt;em&gt;arrays&lt;/em&gt;. Caso as listas não fossem invariantes poderiamos fazer algo desse tipo:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// não compila é somente um exemplo&lt;/span&gt;
+		
+&lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// nada de bom iria acontecer aqui&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;wildcards&quot;&gt;Wildcards&lt;/h3&gt;
+
+&lt;p&gt;Mas e no caso de precisarmos de uma lista com elementos de vários tipos os quais temos domínio. Por exemplo, queremos criar um método que retorne a espécie dos animais de uma lista. Como observamos, se utilizarmos o tipo da classe pai, só poderemos trabalhar com listas deste tipo, o que nos leva a ter que criar uma método para cada classe filha.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// considere que getSpecies é um método da classe Animal&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllDogSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dogs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllCatSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cats&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Cheira mal certo? Se houvessem cem implementações de Animal, teríamos este código replicado uma centena de vezes. Felizmente temos como resolver isso utilizando &lt;em&gt;Wildcards&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;upper-bounded-wildcards&quot;&gt;Upper Bounded Wildcards&lt;/h4&gt;
+
+&lt;p&gt;&lt;em&gt;Wildcard&lt;/em&gt; é o nome dado ao identificador &lt;em&gt;?&lt;/em&gt; em códigos genéricos. Ele representa um tipo desconhecido, e pode ser utilizado em algumas situações como um tipo de parâmetro ou uma variável local.&lt;/p&gt;
+
+&lt;p&gt;Existem algumas formas de utilizar o &lt;em&gt;Wildcard&lt;/em&gt;, a primeira que iremos observar é o &lt;em&gt;Upper Bounded Wildcard&lt;/em&gt;. Vamos resolver o problema anterior utilizando este tipo de &lt;em&gt;Wildcard&lt;/em&gt;:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Pronto agora temos um método que pode ser utilizado para qualquer classe filha de Animal. A sintaxe que utilizamos diz que pode-se passar no parâmetro qualquer lista onde o tipo genérico seja uma classe que extenda Animal.&lt;/p&gt;
+
+&lt;p&gt;Observando-se a sintaxe, podemos entender o porque do nome &lt;em&gt;Upper Bounded Wildcard&lt;/em&gt;. Ao utilizarmos &lt;code&gt;&amp;lt;? extends Animal&amp;gt;&lt;/code&gt; Animal é a classe de hierarquia mais alta (&lt;em&gt;upper&lt;/em&gt;) aceita como parâmetro.&lt;/p&gt;
+
+&lt;p&gt;Você pode estar se perguntando, qual é a diferença entre utilizar o &lt;code&gt;? extends&lt;/code&gt; ou &lt;code&gt;T extends&lt;/code&gt;. O &lt;em&gt;?&lt;/em&gt; é utilizado onde já é esperado um tipo genérico, por exemplo na interface List. Quando uma classe genérica é criada não podemos utilizar o &lt;em&gt;Wildcard&lt;/em&gt; deve-se utilizar o identificador de tipo genérico.&lt;/p&gt;
+
+&lt;p&gt;Também podemos utilizar em uma classe genérica que possui um método genérico com tipo diferente do da classe. Além disso, também é útil como &lt;em&gt;sintax sugar&lt;/em&gt; na assinatura de métodos.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// como não utilizamos o T no corpo do método podemos utilizar o Wildcard&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;Sytslem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSpecies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h4 id=&quot;lower-bounded-wildcards&quot;&gt;Lower Bounded Wildcards&lt;/h4&gt;
+
+&lt;p&gt;Semelhante a forma anterior, o &lt;em&gt;Lower Bounded Wildcards&lt;/em&gt; possui uma sintaxe semelhante, porém no lugar da palavra &lt;em&gt;extends&lt;/em&gt; utilizamos &lt;em&gt;super&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loadNewAnimals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+   
+   &lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchNewAnimals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Neste caso podemos passar como argumento uma lista com tipo genérico igual a &lt;em&gt;Animal&lt;/em&gt; ou uma de suas classes pai. Ou seja &lt;em&gt;Animal&lt;/em&gt; é a classe mais baixa (lower) da hierarquia que pode ser utilizada.&lt;/p&gt;
+
+&lt;h4 id=&quot;unbounded-wildcards&quot;&gt;Unbounded Wildcards&lt;/h4&gt;
+
+&lt;p&gt;A última forma é utilizada quando precisamos de um tipo genérico mas não nos importamos com qual.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;forName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Animal&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;O &lt;em&gt;Wildcard&lt;/em&gt; sozinho é um &lt;em&gt;sintaxe sugar&lt;/em&gt; para &lt;code&gt;&amp;lt;? extends Object&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;quando-utilizar-cada-forma&quot;&gt;Quando utilizar cada forma?&lt;/h3&gt;
+
+&lt;p&gt;Existem recomendações que nos dizem quando utilizar cada uma das formas de &lt;em&gt;Wildcards&lt;/em&gt;. &lt;strong&gt;Lembrando que devemos utilizá-los somente quando o tipo concreto é muito restritivo para a lógica do método.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;O &lt;em&gt;Upper Bounded&lt;/em&gt; deve ser utilizado quando a variável for “de entrada” (in). Dizemos que a variável é de entrada quando ela fornece dados à um método, ou seja será lida.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printAllSizes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;Sytslem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Essa regra nos dá segurança, pois como a variável &lt;code&gt;animals&lt;/code&gt; será lida dentro do &lt;code&gt;for&lt;/code&gt;, só é seguro aceitarmos uma instância de &lt;em&gt;Animal&lt;/em&gt; ou uma de subclasses.&lt;/p&gt;
+
+&lt;p&gt;O &lt;em&gt;Lower Bounded&lt;/em&gt; é o caso contrário. Devemos utilizá-lo quando a variável for de saída (out), ou seja, uma variável que terá dados escritos nela, para utilização posterior.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createDefaultAnimalList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Animal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;animals&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Cat&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Como o método adiciona objetos da classe &lt;em&gt;Animal&lt;/em&gt; em uma lista, o tipo genérico da lista deve ser &lt;em&gt;Animal&lt;/em&gt; ou uma de suas superclasses.&lt;/p&gt;
+
+&lt;p&gt;O &lt;em&gt;Unbounded&lt;/em&gt; é o que tem aplicação mais limitada. Sua sintaxe &lt;code&gt;&amp;lt;?&amp;gt;&lt;/code&gt; é um &lt;em&gt;sintaxe sugar&lt;/em&gt; para &lt;code&gt;&amp;lt;? extends Object&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Podemos utilizá-lo quando o método usa funcionalidades da classe Object no parâmetro, ou quando a implementação não depende do tipo genérico.&lt;/p&gt;
+
+&lt;h3 id=&quot;erros-comuns&quot;&gt;Erros comuns&lt;/h3&gt;
+
+&lt;p&gt;Muitas pessoas se confundem ao utilizar &lt;em&gt;Wildcards&lt;/em&gt; com listas, devido ao fato de acreditarem que o tipo genérico se refere ao elementos que podem ser inseridos na mesma.&lt;/p&gt;
+
+&lt;p&gt;É importante ressaltar que o tipo genérico define o tipo que será utilizado na classe ou método, ou seja uma vez definido ele é único. Vamos ver um exemplo utilizando o &lt;em&gt;Unbounded Wildcard&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// não compila      &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Isso acontece pois &lt;code&gt;&amp;lt;?&amp;gt;&lt;/code&gt; é a mesma coisa que &lt;code&gt;&amp;lt;? extends Object&amp;gt;&lt;/code&gt;. Por isso nenhum valor pode ser inserido nesta lista (a não ser null).&lt;/p&gt;
+
+&lt;p&gt;O exemplo também ressalta que não devemos pensar no &lt;code&gt;&amp;lt;?&amp;gt;&lt;/code&gt; como sendo a mesma coisa que a classe &lt;em&gt;Object&lt;/em&gt;, pois com ela o mesmo exemplo seria válido.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// compila      &lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dog&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;conclusão&quot;&gt;Conclusão&lt;/h3&gt;
+
+&lt;p&gt;Como vimos, o conhecimento sobre o uso correto dos &lt;em&gt;Wildcards&lt;/em&gt; nos possibilita escrevermos códigos mais flexíveis. É um assunto um pouco complexo, alguns pontos ainda ficaram de fora deste post, por isso deixo algumas referências que utilizei que podem servir como complemento. No post anterior, havia dito que falaria sobre &lt;em&gt;Raw Types&lt;/em&gt; e &lt;em&gt;Erasure&lt;/em&gt;, mas como esse ficou grande, vai ter que ficar para o próximo.&lt;/p&gt;
+
+&lt;h3 id=&quot;referências&quot;&gt;Referências&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://app.pluralsight.com/library/courses/java-generics/table-of-contents&quot;&gt;Java Fudamentals: Generic&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://sergiotaborda.javabuilding.com/2015/04/variancia/&quot;&gt;Variância&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/java/generics/index.html&quot;&gt;Documentação sobre Generics&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/java/generics/wildcardGuidelines.html&quot;&gt;Guidelines for Wildcard Use&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html&quot;&gt;Java Generics FAQs - Programming With Java Generics&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/generics-indo-alem-wildcards/&quot;&gt;Generics indo além - Wildcards&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on February 02, 2016.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Introdução à Generics]]></title>
+  <link rel="alternate" type="text/html" href="/introducao-a-generics/" />
+  <id>/introducao-a-generics</id>
+  <published>2016-01-22T12:00:00-02:00</published>
+  <updated>2016-01-22T12:00:00-02:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;Há alguns dias fiz um curso da &lt;a href=&quot;https://app.pluralsight.com/library/courses/java-generics/table-of-contents&quot;&gt;Pluralsight sobre Generics&lt;/a&gt;. O curso é muito bom, se você tem oportunidade de faze-lo aproveite. Decidi compilar algumas das lições que aprendi, aqui no blog. Vou dividir em dois posts para não ficar muito maçante. Este será uma introdução e no próximo irei apresentar algumas funcionalidades mais avançadas.&lt;/p&gt;
+
+&lt;h3 id=&quot;generics&quot;&gt;Generics&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Generics&lt;/em&gt; é uma funcionalidade introduzida na versão 5 do Java. Seu objetivo é fornecer ao desenvolvedor a capacidade de escrever código que seja reutilizável e ao mesmo tempo com a segurança da vericação de tipos em tempo de compilação. As APIs da própria linguagem utilizam largamente estas funcionalidades, como é o caso das conhecidas interfaces &lt;em&gt;List&lt;/em&gt; e &lt;em&gt;Map&lt;/em&gt; por exemplo.&lt;/p&gt;
+
+&lt;h3 id=&quot;por-que-utilizar&quot;&gt;Por que utilizar?&lt;/h3&gt;
+
+&lt;p&gt;Nas versões anteriores a 5 onde não havia a funcionalidade de &lt;em&gt;Generics&lt;/em&gt;, códigos como abaixo eram comuns:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Ao recuperar valores de uma lista, sempre era necessário realizar o &lt;em&gt;cast&lt;/em&gt; para um determinado tipo. Isso devido ao fato que a interface &lt;em&gt;List&lt;/em&gt; recebia um &lt;em&gt;Object&lt;/em&gt; como parâmetro em seu método &lt;em&gt;add&lt;/em&gt;. Como em Java todos os tipos extendem &lt;em&gt;Object&lt;/em&gt;, qualquer tipo poderia ser inserido em uma lista. Em um primeiro momento nenhum problema. O código compila corretamente, mas se aumentarmos um pouco nosso cenário poderemos observar situações deste tipo:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;3&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;main&amp;quot;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ClassCastException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Integer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cannot&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cast&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;String&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Ou seja, não é possível ter segurança de qual tipo será retornado pela lista em tempo de compilação. Erros poderão ser percebidos somente em tempo de execução. Com o uso de &lt;em&gt;Generics&lt;/em&gt; podemos resolver este problema.&lt;/p&gt;
+
+&lt;h3 id=&quot;classes-e-interfaces&quot;&gt;Classes e Interfaces&lt;/h3&gt;
+
+&lt;p&gt;A interface &lt;em&gt;List&lt;/em&gt; se tornou genérica apartir do Java 5, e o problema mostrado anteriormente pode ser evitado. Mas vou criar minha própria (e simples) classe de lista para exemplificar melhor a explicação.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyAwesomeList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+	
+   &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+	
+      &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Arrays&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;copyOf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+	
+      &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Uma classe é considerada genérica, quando possui ao lado de seu nome um identificador como este: &lt;strong&gt;&amp;lt;T&amp;gt;&lt;/strong&gt;. No exemplo a letra T representa um tipo que será inserido ao instanciar a classe &lt;em&gt;MyAwesomeList&lt;/em&gt;. A letra T é apenas uma convenção para &lt;em&gt;type&lt;/em&gt;, qualquer identificador pode ser utilizado.&lt;/p&gt;
+
+&lt;p&gt;Ao longo do código da classe este tipo estará disponível e poderá ser utilizado na criação de variáveis, retorno de métodos (get), ou ainda em parâmetro de métodos (add). Isso faz com que minha classe possa ser utilizada com qualquer tipo, mas somente um tipo nos elementos, uma vez que a lista seja instânciada. Alguns exemplos:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyAwesomeList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MyAwesomeList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//Não compila. &lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//The method add(String) in the type MyAwesomeList&amp;lt;String&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//is not applicable for the arguments (int)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyAwesomeList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MyAwesomeList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//Não há necessidade de cast, pois o compilador sabe que é uma String&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;generics-em-métodos&quot;&gt;Generics em Métodos&lt;/h3&gt;
+
+&lt;p&gt;Não são somente as classes e interfaces que possuem a flexibilidade dos &lt;em&gt;Generics&lt;/em&gt;, também podemos criar métodos genéricos. A sintaxe é um pouco diferente:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;isEmpty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IllegalArgumentException&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;List is empty, cannot find minimum&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+	
+   &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lowestElement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+	
+   &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+		
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;comparator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;compare&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lowestElement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+         &lt;span class=&quot;n&quot;&gt;lowestElement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+	
+   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lowestElement&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Como pode-se perceber a sintaxe é um pouco diferente. Assim como nas classes genéricas, temos que ter a declaração do tipo. Ela fica entre os modificadores de acesso do método e seu tipo de retorno. O tipo pode ser usado como argumento e nas variáveis internas do método, assim como no retorno.&lt;/p&gt;
+
+&lt;p&gt;O retorno no exemplo pode causar um pouco de confusão, mas para deixar claro o primeiro T (&lt;strong&gt;&amp;lt;T&amp;gt;&lt;/strong&gt;) está declarando o tipo genérico do método, enquanto o segundo é seu retorno. Ou seja estamos dizendo que o mesmo tipo que passarmos para invocar o método, será o tipo que irá retornar.&lt;/p&gt;
+
+&lt;p&gt;É importante ressaltar que quando utilizado em métodos, o tipo genérico pertence ao escopo daquele método. Ou seja, não é possível utilizar o tipo em outros métodos. Se a classe também é genérica, e possui um identificador de tipo igual ao do método, o do método vai sobreescrever o da classe.&lt;/p&gt;
+
+&lt;p&gt;No próximo post irei apresentar outros assuntos importantes sobre &lt;em&gt;Generics&lt;/em&gt;: &lt;em&gt;Wildcards&lt;/em&gt;, &lt;em&gt;RawTypes&lt;/em&gt; e &lt;em&gt;Erasure&lt;/em&gt;.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/introducao-a-generics/&quot;&gt;Introdução à Generics&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on January 22, 2016.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Slack]]></title>
+  <link rel="alternate" type="text/html" href="/slack/" />
+  <id>/slack</id>
+  <published>2015-12-30T12:00:00-02:00</published>
+  <updated>2015-12-30T12:00:00-02:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###Retrospectiva&lt;/p&gt;
+
+&lt;p&gt;2015 passou e esse foi o primeiro ano deste blog. Queria ter escrito mais. Foram apenas seis posts (sete com esse xD), bem menos do que pretendia escrever quando iniciei este projeto. Diversos fatores levaram a isso, mas acredito que de qualquer forma, ter um blog é muito positivo. Escrever os posts me faz estudar mais determinado assunto, melhora minha escrita e ainda ajuda alguma alma perdida que caia por aqui. Portanto que venha 2016, com mais posts! Agora vamos ao que interessa.&lt;/p&gt;
+
+&lt;p&gt;###O que é este tal de Slack?&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;a href=&quot;https://slack.com/&quot;&gt;Slack&lt;/a&gt;&lt;/em&gt; é uma ferramenta colaborativa, que tem por objetivo centralizar a comunicação de times. Lançado em 2013, teve um grande crescimento no último ano, chegando a ter mais de 10000 novos usuários por dia. A combinação entre simplicidade, uma ótima busca, e integração com outros aplicativos faz com que seja fácil entender este fenômeno quando você começa a utilizar. O &lt;em&gt;Slack&lt;/em&gt; é viciante!&lt;/p&gt;
+
+&lt;p&gt;###Simples, rápido e fácil&lt;/p&gt;
+
+&lt;p&gt;A interface é muito bonita e eficaz. Além disso você pode utilizar o &lt;em&gt;Slack&lt;/em&gt; em diversas plataformas, web, desktop e mobile (sem versão para Windows Phone ainda). Destaque para as versões mobile, que são muito rápidas e intuitivas. Mesmo em plataformas diferentes suas mensagens não lidas são sincronizadas, portanto se você já leu tudo enquanto estava no PC não se preocupe, no smartphone tudo estará limpo. Diversos pequenos detalhes como este, fazem com que a usabilidade seja um dos pontos fortes.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-12-30-slack/1.png&quot; alt=&quot;A mesma experiência em todas as plataformas&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;###Chat e Channels&lt;/p&gt;
+
+&lt;p&gt;Conversar com seus amigos e colegas é simples. Uma lista a esquerda fica disponível exibindo todos seus contatos. Mas a grande jogada aqui fica por conta dos &lt;em&gt;Channels&lt;/em&gt; (Canais). &lt;em&gt;Channels&lt;/em&gt; são uma espécie de sala de bate papo. Possuem um nome e um assunto que pode ser discutido entre seus membros. Você pode criar e entrar em quantos quiser. Também existe a opção de deixá-los privados, onde as pessoas precisam de autorização de um adminitrador para entrar.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-12-30-slack/2.png&quot; alt=&quot;Seus Channels e contatos&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;###Busca à la Google&lt;/p&gt;
+
+&lt;p&gt;Como dito anteriormente o objetivo do &lt;em&gt;Slack&lt;/em&gt; é centralizar a comunicação. Se você deseja abandonar o e-mail e focar toda sua comunicação no &lt;em&gt;Slack&lt;/em&gt;, não vai se desapontar quando o assunto é busca. Ela é bem inteligente, buscando os termos em conversas e arquivos compartilhados. Também é possível adicionar estrelas nas mensagens para futura visualização de itens importantes. Mas como nem tudo são flores, aqui entra um ponto negativo. O armazenamento de mensagens é um dos itens
+do pacote pago. No &lt;a href=&quot;https://slack.com/pricing&quot;&gt;nível gratuíto&lt;/a&gt; somente as últimas 10000 mensagens são armazenadas. No &lt;em&gt;premium&lt;/em&gt; não há limites, porém o preço é salgado se você trabalha em um time grande: U$8 mensais por usuário.&lt;/p&gt;
+
+&lt;p&gt;###Integrações&lt;/p&gt;
+
+&lt;p&gt;Aqui começa a diversão! O &lt;em&gt;Slack&lt;/em&gt; provê uma série de integrações com outros aplicativos para lhe informar de eventos externos a ele, e possibilitar que você faça diversas coisas sem sair do aplicativo. Alguns exemplos: Alguém abre ou fecha um &lt;em&gt;pull request&lt;/em&gt; no &lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt; e você é avisado. &lt;em&gt;Jobs&lt;/em&gt; no &lt;a href=&quot;https://jenkins-ci.org/&quot;&gt;Jenkins&lt;/a&gt; podem ser monitorados e iniciados. Iniciar uma conversa via &lt;a href=&quot;https://hangouts.google.com/&quot;&gt;Hangout&lt;/a&gt; com os participantes de um canal. Enfim existe &lt;a href=&quot;https://slack.com/apps&quot;&gt;uma grande lista&lt;/a&gt;, com todas as integrações possíveis. Aqui mais uma limitação do plano gratuíto, apenas 10 integrações são permitidas.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-12-30-slack/3.png&quot; alt=&quot;Monitoramento de builds&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;###Bots e API&lt;/p&gt;
+
+&lt;p&gt;Quando você cria um novo time no &lt;em&gt;Slack&lt;/em&gt;, além de você já existirá um “usuário” nele, o &lt;em&gt;&lt;a href=&quot;https://api.slack.com/slackbot&quot;&gt;Slackbot&lt;/a&gt;&lt;/em&gt;. &lt;em&gt;Slackbot&lt;/em&gt; é um usuário da aplicação que pode ser configurado para enviar mensagens quando determinado evento ocorre. Por exemplo, você pode configurar para que o &lt;em&gt;Slackbot&lt;/em&gt; poste algum texto ou link quando determinada palavra ou frase for escrita por alguém. Além dessa configuração, que é feita pelo própria interface, é possível utilizar a &lt;a href=&quot;https://api.slack.com/&quot;&gt;API&lt;/a&gt; para enviar mensagens programaticamente. Isso abre diversas possibilidades, como por exemplo, fazer o &lt;em&gt;Slackbot&lt;/em&gt; avisar quando alguma de suas aplicações fica indisponível.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-12-30-slack/4.png&quot; alt=&quot;Monitoramento de builds&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;###Conclusão&lt;/p&gt;
+
+&lt;p&gt;Vale a pena você dar uma chance ao &lt;em&gt;Slack&lt;/em&gt; se ainda não utiliza. Apesar das limitações do plano gratuíto, por experiência própria, isso não atrapalha muito. Aproveite as integrações, mas fique somente com aquelas que agreguem ao seu &lt;em&gt;workflow&lt;/em&gt;. A mesma dica vale para os &lt;em&gt;Channels&lt;/em&gt;. Entre somente nos que lhe interesse, e tome cuidado para manter o foco de cada um. Abaixo vou deixar alguns links interessantes que encontrei, vale a pena conferir.&lt;/p&gt;
+
+&lt;p&gt;###Links&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://api.slack.com/&quot;&gt;API do Slack&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://tecnoblog.net/179267/slack-motivos-para-usar/&quot;&gt;5 motivos para sua empresa usar Slack&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.google.com.br/search?q=slack&amp;amp;oq=slack&amp;amp;aqs=chrome.0.69i59j69i60j0j69i60j69i59j69i60.904j0j4&amp;amp;sourceid=chrome&amp;amp;es_sm=122&amp;amp;ie=UTF-8#q=slack+hacks&quot;&gt;Busca no Google com diversas dicas&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/filipelinhares/awesome-slack&quot;&gt;Uma lista com diversos Channels interessantes (em inglês)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/joselitojunior/slack-list-brazil&quot;&gt;Lista com diversos Channels brasileiros&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/slack/&quot;&gt;Slack&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on December 30, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Agregando conhecimento com Podcasts]]></title>
+  <link rel="alternate" type="text/html" href="/agregando-conhecimento-com-podcasts/" />
+  <id>/agregando-conhecimento-com-podcasts</id>
+  <published>2015-11-11T12:00:00-02:00</published>
+  <updated>2015-11-11T12:00:00-02:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###A Nova Mídia&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;“Podcast é o nome dado ao arquivo de áudio digital, frequentemente em formato MP3 ou AAC (este último pode conter imagens estáticas e links), publicado através de podcasting na internet e atualizado via RSS. Também pode se referir a série de episódios de algum programa quanto à forma em que este é distribuído. Wikipedia”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Podcast é um tipo de mídia que tem crescido bastante no Brasil nos últimos anos. Comecei a consumir podcasts a uns 2 anos, quando tinha que ir e voltar do trabalho de ônibus. Por não necessitar de interação, somente atenção, encontrei nos podcasts uma ótima forma de aprender e me manter atualizado enquanto estou fazendo outra coisa.&lt;/p&gt;
+
+&lt;p&gt;Esse costume foi evoluindo. Hoje escuto podcasts dirigindo, lavando louça… Também acrescentei outras categorias de casts. No início escutava somente os técnicos, sobre desenvolvimento. Com o tempo fui adicionando outros sobre ciência, seriados, inglês. E existem podcasts sobre muitos assuntos, é só pesquisar.&lt;/p&gt;
+
+&lt;p&gt;###Players&lt;/p&gt;
+
+&lt;p&gt;A melhor forma de encontrar podcasts é utilizando algum aplicativo. Existem diversos, eu uso o &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.bambuna.podcastaddict&amp;amp;hl=pt_BR&quot;&gt;Podcast &amp;amp; Radio Addict&lt;/a&gt; para Android. Existem opções &lt;a href=&quot;http://thenextweb.com/apps/2014/02/19/9-best-ios-apps-listening-podcasts/&quot;&gt;também para IOS&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;###Minha Lista&lt;/p&gt;
+
+&lt;p&gt;Resolvi trazer alguns dos podcasts que escuto, são todos ótimos.&lt;/p&gt;
+
+&lt;p&gt;####Zofe
+&lt;a href=&quot;http://zofe.com.br/&quot;&gt;zofe.com.br&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Zofe (Zone of Front Enders) trata sobre desenvolvimento frontend. Apresentado atualmente pelo Daniel Filho, sempre traz as notícias do mundo frontend.&lt;/p&gt;
+
+&lt;p&gt;####DevNaEstrada
+&lt;a href=&quot;http://devnaestrada.com.br/&quot;&gt;devnaestrada.com.br&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Comecei a escutar o DevNaEstrada a pouco tempo, e já viciei. É um cast bem descontraído que fala sobre diversos assuntos, como desenvolvimento e carreira.&lt;/p&gt;
+
+&lt;p&gt;####GrokPodcast
+&lt;a href=&quot;http://www.grokpodcast.com/&quot;&gt;www.grokpodcast.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Acredito que o Grok seja o cast mais antigo dessa lista, já possuindo muitos episódios. Os episódios são divididos em séries sobre linguagens de programação, ferramentas, carreira entre outras.&lt;/p&gt;
+
+&lt;p&gt;####Hack’n Cast
+&lt;a href=&quot;http://hackncast.org/&quot;&gt;hackncast.org&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Podcast com uma pegada bem descontraída também. Bem focado no mundo open source e no sistema operacional Linux.&lt;/p&gt;
+
+&lt;p&gt;####DataBase Cast
+&lt;a href=&quot;http://imasters.com.br/perfil/databasecast/&quot;&gt;imasters.com.br/perfil/databasecast&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Cast sobre banco de dados. Apresentado por Mauro Pichiliani e Wagner Crivelini que demonstram toda sua experiência durante os episódios, que geralmente contam com convidados. Podcast indispensável para quem quer seguir carreira na área de banco de dados.&lt;/p&gt;
+
+&lt;p&gt;####The RealLifeRadio
+&lt;a href=&quot;http://reallifeglobal.com/real-life-english-esl-podcasts/&quot;&gt;reallifeglobal.com/real-life-english-esl-podcasts&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Podcast que tem por objetivo disseminar o conhecimento da língua inglesa. Seus episódios são bem divertidos, e os apresentadores falam de forma clara, bem compreensível até para quem está iniciando os estudos no inglês.&lt;/p&gt;
+
+&lt;p&gt;####SciCast
+&lt;a href=&quot;http://www.scicast.com.br/&quot;&gt;www.scicast.com.br&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;O SciCast tem por objetivo tornar a ciência mais divertida. E na minha opinião ele consegue xD. Trata sobre diversos assuntos de forma clara e divertida.&lt;/p&gt;
+
+&lt;p&gt;####GeekOut
+&lt;a href=&quot;http://geekout.fm/&quot;&gt;geekout.fm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Cast sobre coisas geek como videogames, seriados e filmes. Muito divertido, mas faz tempo que não saem episódios novos.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/agregando-conhecimento-com-podcasts/&quot;&gt;Agregando conhecimento com Podcasts&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on November 11, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Os melhores atalhos do Sublime]]></title>
+  <link rel="alternate" type="text/html" href="/sublime-text-atalhos/" />
+  <id>/sublime-text-atalhos</id>
+  <published>2015-08-10T11:00:00-03:00</published>
+  <updated>2015-08-10T11:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###O Famoso Editor&lt;/p&gt;
+
+&lt;p&gt;O Sublime Text é o editor de texto que uso no dia a dia. Não entro na discussão se ele é o melhor, pois nunca utilizei muito outros editores de texto. 
+O que posso afirmar é que ele é extremamente poderoso, fornecendo funcionalidades que fazem com que tarefas que seriam muito trabalhosas sejam realizadas com alguns comandos.&lt;/p&gt;
+
+&lt;p&gt;Estou lendo o livro do &lt;a href=&quot;https://twitter.com/josh_earl&quot;&gt;Josh Earl&lt;/a&gt;, &lt;a href=&quot;https://leanpub.com/sublime-productivity&quot;&gt;Sublime Productivity&lt;/a&gt;, que traz muitos atalhos úteis. Resolvi escrever este post para compartilhar o que estou aprendendo e para consultas futuras. Abaixo segue uma lista com os comandos que achei mais interessantes ao longo do livro.&lt;/p&gt;
+
+&lt;p&gt;###Command Palette&lt;/p&gt;
+
+&lt;p&gt;O Command Palette, nos permite pesquisar todos os comandos disponíveis no Sublime Text. O atalho para o Command Palette é &lt;em&gt;Ctrl+Shift+P&lt;/em&gt;. Irá ser exibida uma caixa que permite a entrada de texto. Através de um algoritmo de Fuzzy Matching, o Sublime Text irá exibir as ações disponíveis. O interessante é que esse algoritmo faz uma
+busca por palavras que comecem com as letras informadas. Por exemplo, se você digitar “ssjs” irá escolher a opção Set Sintax: JavaScript. Além disso a Command Palette exibe o atalho para o comando pesquisado o que ajuda a decorar os atalhos.&lt;/p&gt;
+
+&lt;p&gt;###Abas&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+N&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Cria uma nova aba&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+W&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Fecha a aba atual&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+T&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Reabre a última aba fechada&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;###Navegando entre Abas&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Alt+1&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Vai para a primeira aba. Podem ser usado os algarismos até 9 para ir para a aba correspondente&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+PageDown&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Navega para a aba da esquerda&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+PageUp&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Navega para a aba da direita&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Tab&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Navega para a última aba visitada&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;###Edição de Texto&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Crtl+Enter&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Insere uma nova linha abaixo da atual e posiciona o cursor em seu início&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+Enter&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Insere uma nova linha acima da atual e posiciona o cursor em seu início&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+K + Ctrl+Backspace&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Apaga o conteúdo da linha a esquerda do cursor&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+K + Ctrl+K&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Apaga o conteúdo da linha a direita do cursor&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Delete&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Apaga a próxima palavra a direita&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Backspace&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Apaga a próxima palavra a esquerda&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+K, Ctrl+U&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Converte o texto selecionado para upper case&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+K, Ctrl+L&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Converte o texto selecionado para lower case&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+J&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Concatena a linha atual com a linha anterior&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+Up&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Move a linha ou texto selecionado para cima&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+Down&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Move a linha ou texto selecionado para baixo&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+K&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Deleta a linha selecionada&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+D&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Duplica a linha ou texto selecionado&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;###Seleção de Texto&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Click do mouse&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Seleciona vários pontos para edição múltipla&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+L&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Coloca um cursor de edição no final de cada linha selecionada&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+D&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Adiciona um cursor de edição no final da próxima ocorrência da palavra selecionada&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+L&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Seleciona a linha inteira. Se pressionado novamente, seleciona a linha abaixo&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+M&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Seleciona todo texto entre um conjunto de chaves&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+A&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Seleciona todo texto entre um conjunto de tags&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Ctrl+Shift+Space&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Seleciona uma parte de um contexto. Expande o contexto se pressionado múltiplas vezes&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;em&gt;Menu Selection -&amp;gt; Invert Selection&lt;/em&gt;&lt;/td&gt;
+      &lt;td&gt;Inverte a seleção atual, selecionando tudo que não estava selecionado&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/sublime-text-atalhos/&quot;&gt;Os melhores atalhos do Sublime&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on August 10, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Funções JavaScript - This]]></title>
+  <link rel="alternate" type="text/html" href="/funcoes-javascript-this/" />
+  <id>/funcoes-javascript-this</id>
+  <published>2015-03-30T12:00:00-03:00</published>
+  <updated>2015-03-30T12:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;h3 id=&quot;o-tal-this&quot;&gt;O tal This&lt;/h3&gt;
+&lt;p&gt;Se você é um desenvolvedor de linguagens orientadas a objeto como Java e C#, já deve estar acostumado com o conceito de &lt;em&gt;this&lt;/em&gt;. Nestas linguagens, &lt;em&gt;this&lt;/em&gt; é o contexto de execução. Por exemplo quando executamos um método em Java, podemos utilizar referências a &lt;em&gt;this&lt;/em&gt;, que equivalem ao objeto que esta realizando a invocação. Isso permite que métodos iguais retornem informações diferentes de acordo com quem faz a chamada.&lt;/p&gt;
+
+&lt;p&gt;Chegando no mundo JavaScript, vamos perceber que o &lt;em&gt;this&lt;/em&gt; é tratado de forma totalmente distinta. Aqui &lt;em&gt;this&lt;/em&gt; não é determinado por quem chama a função e sim pela forma como ela é invocada. Existem quatro maneiras de invocar uma função, e vamos conhece-las agora: &lt;em&gt;Invocação como Função&lt;/em&gt;, &lt;em&gt;Invocação como Método&lt;/em&gt;, &lt;em&gt;Invocação como Construtor&lt;/em&gt; e &lt;em&gt;Invocação por apply/call&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;invocação-como-função&quot;&gt;Invocação como Função&lt;/h3&gt;
+&lt;p&gt;Como assim invocação como função? É óbvio que uma função é invocada como uma função, qualquer um deduziria isso. Na verdade dizemos que uma função é invocada como função quando ela não é invocada de nenhuma das outras três maneiras: método, construtor, apply/call.&lt;/p&gt;
+
+&lt;p&gt;Este tipo de invocação ocorre quando a função é invocada utilizando o operador () e a expressão para qual o operador é aplicado não referência a função como uma propriedade de um objeto. Quando utilizamos este tipo de invocação o contexto da função é o contexto global (window).&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;printBalance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;printBalance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Window is the context!&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;depositValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;depositValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;invocação-como-método&quot;&gt;Invocação como Método&lt;/h3&gt;
+&lt;p&gt;Quando uma função é atribuída a uma propriedade de um objeto, e a invocação ocorre através desta propriedade, então a função é invocada como um método deste objeto. Aqui as coisas começam a ficar interessantes.&lt;/p&gt;
+
+&lt;p&gt;Quando invocamos uma função como método, o contexto da função é o objeto ao qual o método pertence. Assim como em outras linguagens orientadas a objetos, o objeto utilizado para invocar a função é passado como referência implícita para a mesma, possibilitando a sua utilização dentro da função.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;account&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;clientName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Mike&amp;#39;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;account&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getClientName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;account&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getClientName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;invocação-como-construtor&quot;&gt;Invocação como Construtor&lt;/h3&gt;
+&lt;p&gt;Invocação como construtor é uma forma de se criar objetos. Na verdade todas as funções podem ser invocadas desta forma, basta chamá-las utilizando a palavra-chave &lt;em&gt;new&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;printBalance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Quando utilizamos a palavra-chave &lt;em&gt;new&lt;/em&gt; três coisas acontecem:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Um novo objeto vazio é criado.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Esse objeto é transmitido ao construtor como parâmetro &lt;em&gt;this&lt;/em&gt; e torna-se o contexto da função do construtor.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Quando não há um valor de retorno explícito o novo objeto é retornado como valor do construtor.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Como você deve ter percebido, isso faz com que nem todas funções sejam interessantes de serem invocadas utilizando &lt;em&gt;new&lt;/em&gt;. Os construtores na verdade têm como objetivo criar um objeto, configurá-lo e retorná-lo. Qualquer coisa diferente disso não irá trazer resultados muito bons. Um bom exemplo da utilização dos construtores para criação de objetos:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Account&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;account1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Account&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;account1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Por ter sua função bem definida, existem padrões utilizados na nomenclatura dos construtores. Enquanto os métodos são nomeados com verbos e iniciam com a primeira letra minúsculas, os construtores recebem no nome um substantivo que indica o objeto que será construído e iniciam com uma letra maiúscula.&lt;/p&gt;
+
+&lt;h3 id=&quot;invocação-por-applycall&quot;&gt;Invocação por Apply/Call&lt;/h3&gt;
+&lt;p&gt;Até agora vimos diferentes formas de invocar funções, onde &lt;em&gt;this&lt;/em&gt; é determinado de acordo com a forma escolhida. Mas e se quiséssemos definir &lt;em&gt;this&lt;/em&gt; da nossa forma? Sim podemos fazer isso utilizando um dos dois métodos que todas funções possuem: &lt;em&gt;apply&lt;/em&gt; e &lt;em&gt;call&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Quando utilizamos estes métodos podemos definir quem será o contexto da função e ainda passar uma lista de argumentos. A diferença entre os dois é que enquanto &lt;em&gt;apply&lt;/em&gt; recebe um array de argumentos, &lt;em&gt;call&lt;/em&gt; recebe os mesmos diretamente na lista de argumentos.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;deposit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;account1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;account2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;deposit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;account1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;deposit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;account2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;account1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;account2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Os dois métodos possuem o mesmo comportamento, você pode escolher o que mais lhe fizer sentido no momento. Se possuir um array, ou os argumentos são uma coleção utilize &lt;em&gt;apply&lt;/em&gt;, caso contrário utilize &lt;em&gt;call&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;recapitulando&quot;&gt;Recapitulando&lt;/h3&gt;
+&lt;p&gt;Como podemos observar, JavaScript fornece diversas formas de invocarmos funções, e estas formas definem quem será o contexto da função.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Quando invocada como uma função simples, o contexto é o objeto global (window).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Quando invocada como um método, o contexto é o objeto ao qual o método pertence.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Quando invocada como construtor, é um objeto recém alocado.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;E por fim quando invocada pelos métodos &lt;em&gt;apply()&lt;/em&gt; e &lt;em&gt;call()&lt;/em&gt;, o contexto pode ser o que quisermos.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/funcoes-javascript-this/&quot;&gt;Funções JavaScript - This&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on March 30, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Funções JavaScript - Arguments]]></title>
+  <link rel="alternate" type="text/html" href="/funcoes-javascript-arguments/" />
+  <id>/funcoes-javascript-arguments</id>
+  <published>2015-03-02T11:00:00-03:00</published>
+  <updated>2015-03-02T11:00:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###Assinaturas de métodos&lt;/p&gt;
+
+&lt;p&gt;Quando estamos trabalhando com linguagens como Java ou C#, estamos acostumados a ter que obedecer as assinaturas dos métodos. Estas assinaturas nos informam quais parâmetros determinado método deve receber para executar corretamente.&lt;/p&gt;
+
+&lt;p&gt;Quando não informamos algum parâmetro, ou ainda, passamos parâmetros além dos que estão na assinatura, o compilador nos informa que temos um problema e este método não irá compilar. Veja este exemplo em Java:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;imprimePalavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;palavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;palavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;imprimePalavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;teste&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//OK compila sem problemas&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;imprimePalavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;teste&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;outroTeste&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//O método não é aplicável para os argumentos String, String&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;imprimePalavra&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//O método não é aplicável para os argumentos()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;###Sintaxe de Funções&lt;/p&gt;
+
+&lt;p&gt;Porém, a linguagem JavaScript trata este assunto de maneira totalmente distinta. Antes de mostrar as diferenças, vamos ver qual é a sintaxe de declaração de uma função JavaScript.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;A palavra-chave function.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Um nome que é opcional.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Uma lista separada por vírgulas de nomes de parâmetros entre parênteses. A lista pode ser vazia, mas os parênteses sempre devem estar presentes.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;O corpo da função, com as instruções entre chaves. O corpo pode estar vazio, mas as chaves sempre devem estar presentes.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###Argumentos Variáveis&lt;/p&gt;
+
+&lt;p&gt;Como dito anteriormente, o JavaScript trata de uma forma diferente os argumentos de uma função. Podemos invocar uma função passando qualquer número de parâmetros, não importando a assinatura da função, e nenhum erro será gerado.&lt;/p&gt;
+
+&lt;p&gt;As seguintes regras são seguidas ao invocar uma função:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Invocar a função passando o mesmo número de argumentos que a assinatura declara:&lt;/strong&gt; o primeiro argumento será atribuído ao primeiro parâmetro, o segundo ao segundo e assim sucessivamente.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Invocar a função com menos parâmetros do que os informados na assinatura:&lt;/strong&gt; a regra acima será seguida com os parâmetros informados, e os que não forem informados terão seus valores &lt;em&gt;undefined&lt;/em&gt; dentro da função.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Invocar a função com parâmetros além dos informados na assinatura:&lt;/strong&gt; Os atributos serão atribuídos aos parâmetros seguindo a primeira regra. Os atributos em excesso, são ignorados e não tem seus valores atribuídos a nenhum parâmetro.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###Arguments&lt;/p&gt;
+
+&lt;p&gt;No tópico anterior você deve ter se perguntado: Porque é possível passar argumentos adicionais se eles não são atribuídos a nenhum parâmetro? A resposta para isso é o parâmetro &lt;strong&gt;&lt;em&gt;arguments&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Toda vez que invocamos uma função, o JavaScript passa de forma implícita o argumento &lt;em&gt;arguments&lt;/em&gt;. Este argumento representa uma lista que contém todos argumentos que foram passados para a função.&lt;/p&gt;
+
+&lt;p&gt;O exemplo abaixo deixará isso mais claro:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;imprimeValores&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;imprimeValores&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Podemos invocar a função passando um parâmetro apesar de sua assinatura não requerer nenhum. E ainda conseguimos utilizar seu valor dentro da função.&lt;/p&gt;
+
+&lt;p&gt;Devemos tomar alguns cuidados ao utilizar &lt;em&gt;arguments&lt;/em&gt;. Apesar de possuir um atributo &lt;em&gt;length&lt;/em&gt;, ser possível recuperar seus valores com sintaxe de um array, e até iterá-lo em um laço for, &lt;em&gt;arguments&lt;/em&gt; não é um array. Tentar utilizar os métodos de array resultará em erros.&lt;/p&gt;
+
+&lt;p&gt;Por enquanto ficamos por aqui. No próximo post falarei sobre o outro parâmetro que é passado de forma implícita em todas funções: &lt;strong&gt;&lt;em&gt;this&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/funcoes-javascript-arguments/&quot;&gt;Funções JavaScript - Arguments&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on March 02, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Funções JavaScript - Como Funciona O Escopo]]></title>
+  <link rel="alternate" type="text/html" href="/funcoes-javascript-como-funciona-o-escopo/" />
+  <id>/funcoes-javascript-como-funciona-o-escopo</id>
+  <published>2015-02-23T11:20:00-03:00</published>
+  <updated>2015-02-23T11:20:00-03:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###Funções&lt;/p&gt;
+
+&lt;p&gt;Estou lendo o livro Segredos do &lt;a href=&quot;http://novatec.com.br/livros/ninja-javascript/&quot;&gt;Ninja JavaScript&lt;/a&gt;, o qual recomendo fortemente a leitura, e resolvi escrever um pouco sobre o tópico que estou estudando: funções.&lt;/p&gt;
+
+&lt;p&gt;Funções podem ser consideradas a base da linguagem JavaScript. Por ser uma linguagem de aspecto funcional, para fazermos o bom uso de seus recursos, é imprescindível que tenhamos um bom conhecimento sobre a mecânica por trás das funções.&lt;/p&gt;
+
+&lt;p&gt;###Escopo&lt;/p&gt;
+
+&lt;p&gt;Apesar de ser baseada na linguagem C, JavaScript não delimita o escopo através de blocos (que iniciam e terminam com {}).&lt;/p&gt;
+
+&lt;p&gt;Para quem está acostumado com linguagens que delimitam o escopo por blocos, como o Java, irá esperar que o valor de saída seja undefined.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoTeste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
+   &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+     &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;teste&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+ &lt;span class=&quot;nx&quot;&gt;escopoTeste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Mas se fizermos este teste no browser poderemos verificar que o valor de saída será a string &lt;em&gt;teste&lt;/em&gt;. Como foi dito anteriormente, o JavaScript não delimita o escopo por blocos mas sim baseado na função.&lt;/p&gt;
+
+&lt;p&gt;As seguintes regras são utilizadas para determinar o escopo:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Declarações de variáveis estão no escopo do ponto onde são declaradas até o final da função em que se encontram, independente do alinhamento dos blocos.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Funções nomeadas fazem parte do escopo dentro de toda função onde são declaradas, independente do alinhamento dos blocos.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Abaixo podemos verificar estes comportamentos com alguns exemplos. Execute os códigos abaixo e verifique as saídas.&lt;/p&gt;
+
+&lt;p&gt;###Escopo de Variáveis&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dia&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;number&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;ANTES da declaração, a variável dia ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;ANTES da declaração, a variável dia NÃO ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dia&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dia&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;number&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;APÓS a declaração, a variável dia ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;APÓS a declaração, a variável dia NÃO ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;		  
+  
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;###Escopo de Funções&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoDeFuncoes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;helloWorld&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;function&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;ANTES da declaração, a função helloWorld ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;ANTES da declaração, a função helloWorld NÃO ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;helloWorld&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Hello World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;helloWorld&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;function&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;APÓS a declaração, a função helloWorld ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;APÓS a declaração, a função helloWorld NÃO ESTÁ no escopo.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;escopoDeFuncoes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;###Global x Local
+Sempre que declaramos uma variável ou função fora de uma função, ela acaba pertencendo ao escopo global. Como seu nome sugere, tudo que pertence ao escopo global, é acessível em qualquer parte daquele código.&lt;/p&gt;
+
+&lt;p&gt;Porém quando criamos variáveis ou funções dentro de outra função, as regras mostradas anteriormente são obedecidas, e dizemos que o escopo é local.&lt;/p&gt;
+
+&lt;p&gt;Quando existe um conflito de nomes entre variáveis globais e locais, o JavaScript irá a utilizar a de menor escopo por padrão.&lt;/p&gt;
+
+&lt;p&gt;Observe o exemplo abaixo:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Podemos verificar que o valor impresso foi o 10, pois a variável mais próxima deste escopo é a de valor 10.&lt;/p&gt;
+
+&lt;p&gt;###Um pouco mais sobre escopo de variáveis&lt;/p&gt;
+
+&lt;p&gt;Um comportamento que ainda devemos observar, é que o JavaScript coloca as declarações de variáveis sempre no topo das funções, independentemente de sua localização.&lt;/p&gt;
+
+&lt;p&gt;Mas note que somente a declaração é colocada no topo. A atribuição do valor ocorre no ponto em que está localizada no código.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Como você pôde perceber o valor 5 não foi impresso. Isso acontece porque dentro do escopo da função a variável &lt;em&gt;a&lt;/em&gt; existe desde o começo, apesar de não possuir valor.&lt;/p&gt;
+
+&lt;p&gt;O código acima seria o equivalente a isso:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  
+  &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  
+  &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;escopoDeVariaveis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Bom por hoje é isso. Em breve irei escrever mais sobre esse assunto. Dúvidas e sugestões são bem vindas.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/funcoes-javascript-como-funciona-o-escopo/&quot;&gt;Funções JavaScript - Como Funciona O Escopo&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on February 23, 2015.&lt;/p&gt;</content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Hospendando seu Blog Na AWS por Centavos]]></title>
+  <link rel="alternate" type="text/html" href="/hospedando-seu-blog-na-aws-por-centavos/" />
+  <id>/hospedando-seu-blog-na-aws-por-centavos</id>
+  <published>2015-02-12T09:00:00-02:00</published>
+  <updated>2015-02-12T09:00:00-02:00</updated>
+  <author>
+    <name>Robson Bittencourt</name>
+    <uri></uri>
+    <email>robson.luizv@gmail.com</email>
+  </author>
+  <content type="html">&lt;p&gt;###O Primeiro Post&lt;/p&gt;
+
+&lt;p&gt;A ideia deste primeiro post é começar a demonstrar como montei este blog, para que possa servir como um tutorial para quem quiser começar o seu próprio.&lt;/p&gt;
+
+&lt;p&gt;O processo pode ser dividido em 3 partes: criação, versionamento, e hospedagem. Creio que para os dois primeiros já existe bastante material, então resolvi escrever detalhadamente somente sobre a hospedagem que foi a parte que não encontrei muita coisa em português.&lt;/p&gt;
+
+&lt;p&gt;###Criação&lt;/p&gt;
+
+&lt;p&gt;Para criação do blog utilizei o gerador de sites estáticos &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;. O Jekyll é uma ferramenta que facilita a construção de sites estáticos como por exemplo blog. Seu objetivo é fazer com que o usuário se preocupe quase que exclusivamente com o texto, uma vez que ele já tenha criado seu template.&lt;/p&gt;
+
+&lt;p&gt;O Willian Justen escreveu um &lt;a href=&quot;http://willianjusten.com.br/perguntas-e-respostas-jekyll/&quot;&gt;ótimo post&lt;/a&gt; demonstrando desde a instalação até a criação das páginas utilizando Jekyll.&lt;/p&gt;
+
+&lt;p&gt;###Versionamento&lt;/p&gt;
+
+&lt;p&gt;É muito importante que tenhamos um controle sobre as modificações do blog. Para isso utilizei Git + Github para fazer o versionamento dos arquivos. Além disso utilizar o Github possibilita que outras pessoas possam contribuir com o blog.&lt;/p&gt;
+
+&lt;p&gt;O Fernando Daciuk tem &lt;a href=&quot;http://blog.da2k.com.br/2014/01/19/manter-repositorio-github-forkado-sincronizado-com-o-original/&quot;&gt;diversos posts&lt;/a&gt; sobre Git e Github no seu blog.&lt;/p&gt;
+
+&lt;p&gt;###Hospedagem&lt;/p&gt;
+
+&lt;p&gt;Para hospedagem vou demonstrar alguns serviços da AWS (Amazon Web Services). A AWS oferece uma enorme gama de serviços utilizando o paradigma de Cloud Computing. A principal característica destes serviços é o modelo pay-as-you-go, onde você só é cobrado pelo tempo que utilizar o serviço, sem contratos.&lt;/p&gt;
+
+&lt;p&gt;Irá ser necessário criar uma conta na AWS. Isso pode ser feito &lt;a href=&quot;http://aws.amazon.com/pt/&quot;&gt;aqui&lt;/a&gt;. Ao criar a conta você poderá utilizar &lt;a href=&quot;http://aws.amazon.com/pt/free/&quot;&gt;diversos serviços gratuitamente durante 1 ano&lt;/a&gt;. Com exceção do Route53, os demais serviços apresentados a seguir se enquadram no nível gratuito.&lt;/p&gt;
+
+&lt;p&gt;Os serviços que utilizei para hospedar o blog foram:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://aws.amazon.com/pt/s3/&quot;&gt;S3 Simple Storage Service&lt;/a&gt; - Armazenamento de arquivos estáticos&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://aws.amazon.com/pt/cloudfront/&quot;&gt;CloudFront&lt;/a&gt; - Serviço de entrega de conteúdo (CDN)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://aws.amazon.com/pt/route53/&quot;&gt;Route53&lt;/a&gt; - Domínio e DNS&lt;/p&gt;
+
+&lt;p&gt;###Armazenando Seus Arquivos No S3
+O Simple Storage Service, mais conhecido por S3 é o serviço de armazenamento de arquivos da AWS. É aqui que vamos colocar o conteúdo do blog. Qualquer questão relativa a backup dos arquivos é providenciada pela AWS. Você só precisa se preocupar em fazer o upload dos arquivos.&lt;/p&gt;
+
+&lt;p&gt;No console principal, selecione o S3:&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/1.png&quot; alt=&quot;console aws&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Clique no botão &lt;em&gt;Create Bucket&lt;/em&gt;. O bucket é o lugar onde irão ficar armazenados seus objetos no S3. Após, preencha o nome do bucket com o domínio do seu blog. Escolha a região US Standard pois é a mais barata e clique em &lt;em&gt;Create&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/2.png&quot; alt=&quot;Criando um bucket&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Faça upload do conteúdo do seu blog dentro do bucket. Se você já leu o post sobre Jekyll faça upload do conteúdo da pasta _site.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/3.png&quot; alt=&quot;Upload de arquivos no bucket&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Selecione o bucket criado e vá na aba &lt;em&gt;Properties&lt;/em&gt; e na opção &lt;em&gt;Permissions&lt;/em&gt;. Clique no botão &lt;em&gt;Edit bucket policy&lt;/em&gt;&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/4.png&quot; alt=&quot;Permissões do bucket&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Adicione o seguinte código:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;quot;Version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2008-10-17&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+	&lt;span class=&quot;nt&quot;&gt;&amp;quot;Statement&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;quot;Sid&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Allow Public Access to All Objects&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;quot;Effect&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Allow&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;quot;Principal&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+				&lt;span class=&quot;nt&quot;&gt;&amp;quot;AWS&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;
+			&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;quot;Action&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;s3:GetObject&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+			&lt;span class=&quot;nt&quot;&gt;&amp;quot;Resource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;arn:aws:s3:::www.meublog.com/*&amp;quot;&lt;/span&gt;
+		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+	&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Agora no menu &lt;em&gt;Static Web Hosting&lt;/em&gt; selecione a opção &lt;em&gt;Enable website hosting&lt;/em&gt; e informe sua página inicial e a página de erro.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/5.png&quot; alt=&quot;Ativando página estática no bucket&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Ao ativar esta opção o S3 já lhe fornece uma URL para o seu bucket. Se você acessá-la já deverá visualizar a página inicial do seu blog.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/6.png&quot; alt=&quot;URL Bucket S3&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Mas não queremos está URL feia certo? Vamos trabalhar nisso então.&lt;/p&gt;
+
+&lt;p&gt;###Entregando o Conteúdo Do Seu Blog Rapidamente Com CloudFront&lt;/p&gt;
+
+&lt;p&gt;Ao criarmos o bucket no S3 selecionamos a região US Standard. Isso significa que nossos arquivos estão sendo hospedados nos Estados Unidos. Sempre que um leitor de seu blog acessá-lo de fora dos EUA ele vai ter um tempo de carregamento da página maior, em virtude da latência.&lt;/p&gt;
+
+&lt;p&gt;Mas como podemos entregar o conteúdo do nosso blog de forma otimizada para qualquer lugar do mundo? É neste ponto que entra o CloudFront. Este serviço funciona como um &lt;a href=&quot;http://www.wikiwand.com/pt/Content_Delivery_Network&quot;&gt;CDN - Content Delivery Network&lt;/a&gt;. Ele se encarrega de armazenar uma cópia de seus arquivos em diversos lugares do mundo.&lt;/p&gt;
+
+&lt;p&gt;Assim se alguém acessar o seu blog do Brasil, os arquivos serão recuperados dos servidores da AWS localizados no Brasil, reduzindo a latência e entregando uma melhor experiência para o leitor.&lt;/p&gt;
+
+&lt;p&gt;O primeiro passo para termos estas vantagens em nosso blog é selecionar a opção CloudFront no console principal, clicar em &lt;em&gt;Create Distribution&lt;/em&gt; e selecionar a opção Web. Em &lt;em&gt;Origin Domain Name&lt;/em&gt; selecione o bucket criado no S3. As demais opções não precisam ser alteradas.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/7.png&quot; alt=&quot;Criando distribuição no CloudFront&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;No campo &lt;em&gt;Alternate Domain Names&lt;/em&gt; coloque o domínio do seu blog das duas formas que são mostradas na imagem. Também adicione o objeto raiz da sua distribuição, que será o mesmo que você selecionou no S3, nesse caso o index.html. As demais opções podem permanecer com os valores padrão.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/8.png&quot; alt=&quot;Criando distribuição no CloudFront&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Agora se irmos no menu lateral &lt;em&gt;Distributions&lt;/em&gt; e selecionarmos a distribuição recém criada, poderemos verificar que ela tem um &lt;em&gt;Domain Name&lt;/em&gt;. Essa url irá devolver também a página inicial do blog, mas agora utilizando o serviço CloudFront. Mas ainda temos uma URL pouco amigável. Chegou a hora de comprarmos nosso próprio domínio.&lt;/p&gt;
+
+&lt;p&gt;###Obtendo Uma URL Amigável Com Route53&lt;/p&gt;
+
+&lt;p&gt;Agora que já temos nossos arquivos hospedados e sendo entregues da melhor forma possível, precisamos ter uma URL amigável para que nosso blog seja encontrado facilmente pelos leitores. O primeiro passo é adquirir um domínio, que será o endereço de seu blog na web. Selecione o Route53 no console principal, &lt;em&gt;Registered Domains&lt;/em&gt;, &lt;em&gt;Register Domain&lt;/em&gt;. Escolha o nome do seu domínio e a extensão final da URL. Domínios .com custam $12, mas não se assuste com esse valor ele é anual.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/9.png&quot; alt=&quot;Registrando um domínio no Route53&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Clicando no botão &lt;em&gt;check&lt;/em&gt; o sistema irá verificar se o domínio escolhido está disponível. Se positivo clique em &lt;em&gt;continue&lt;/em&gt; até finalizar a compra.&lt;/p&gt;
+
+&lt;p&gt;Agora que temos nosso domínio precisamos fazer as configurações de &lt;a href=&quot;http://www.wikiwand.com/pt/Domain_Name_System&quot;&gt;DNS&lt;/a&gt; para quando o leitor digitar o endereço do nosso blog ele seja redirecionado para a nossa distribuição do CloudFront.&lt;/p&gt;
+
+&lt;p&gt;Ainda no Route53 clique na opção &lt;em&gt;Hosted Zones&lt;/em&gt;, e depois em &lt;em&gt;Create Hosted Zone&lt;/em&gt;. Em &lt;em&gt;Domain Name&lt;/em&gt; coloque o endereço do seu blog e clique em &lt;em&gt;Create&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/10.png&quot; alt=&quot;Hosted Zone no Route53&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Com a Hosted Zone selecionada clique em &lt;em&gt;Go to Record Sets&lt;/em&gt;. Clique em &lt;em&gt;Create Record Set&lt;/em&gt;. Marque a opção &lt;em&gt;Alias&lt;/em&gt; como Yes, e selecione sua distribuição do CloudFront no campo &lt;em&gt;Alias Target&lt;/em&gt;.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/11.png&quot; alt=&quot;Records Sets no Route53&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Faça o mesmo procedimento novamente, mas agora preenchendo o campo &lt;em&gt;Name&lt;/em&gt; com www. Seus Records Sets devem estar parecidos com estes.&lt;/p&gt;
+
+&lt;figure&gt;
+	&lt;img src=&quot;/images/2015-02-10-hospedando-seu-blog-na-aws-por-centavos/12.png&quot; alt=&quot;Records Sets no Route53&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;###Pronto&lt;/p&gt;
+
+&lt;p&gt;Agora basta esperar a propagação do DNS, que pode levar até 24 horas e depois começar a escrever em seu blog. Mesmo após passar o período do free trial da AWS o custo de hospedagem do blog será muito baixo. Tirando o domínio que tem um custo um pouco mais elevado, você irá gastar menos de $1 por mês.&lt;/p&gt;
+
+&lt;p&gt;Se interessou pelos serviços da AWS? Fique atento que virão mais posts sobre o assunto em breve. Até mais.&lt;/p&gt;
+
+  &lt;p&gt;&lt;a href=&quot;/hospedando-seu-blog-na-aws-por-centavos/&quot;&gt;Hospendando seu Blog Na AWS por Centavos&lt;/a&gt; was originally published by Robson Bittencourt at &lt;a href=&quot;&quot;&gt;RandomDev&lt;/a&gt; on February 12, 2015.&lt;/p&gt;</content>
+</entry>
+
+</feed>

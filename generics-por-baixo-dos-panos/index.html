@@ -1,0 +1,402 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Generics - Por baixo dos panos &#8211; RandomDev</title>
+<meta name="description" content="Demorei para escrever este último post da série sobre Generics, mas saiu. No post anterior falei sobre Wildcards e como eles possibilitam a escrita de códigos mais flexíveis.
+
+">
+<meta name="keywords" content="java, generics">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Generics - Por baixo dos panos">
+<meta name="twitter:description" content="Demorei para escrever este último post da série sobre Generics, mas saiu. No post anterior falei sobre Wildcards e como eles possibilitam a escrita de códigos mais flexíveis.
+
+">
+<meta name="twitter:site" content="@rluizv">
+<meta name="twitter:creator" content="@rluizv">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="pt_BR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Generics - Por baixo dos panos">
+<meta property="og:description" content="Demorei para escrever este último post da série sobre Generics, mas saiu. No post anterior falei sobre Wildcards e como eles possibilitam a escrita de códigos mais flexíveis.
+
+">
+<meta property="og:url" content="/generics-por-baixo-dos-panos/">
+<meta property="og:site_name" content="RandomDev">
+
+
+
+
+
+<link rel="canonical" href="/generics-por-baixo-dos-panos/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RandomDev Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<script src="//use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="/" >Home</a></li>
+		  
+		    
+		    <li><a href="/about/" >Sobre Mim</a></li>
+		  
+		    
+		    <li><a href="/posts/" >Posts</a></li>
+		  
+		    
+		    <li><a href="/tags/" >Tags</a></li>
+		  
+        <li class="dosearch"><span><i class="fa fa-search"></i> Busca</span></li>
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<div class="search-wrapper">
+  <div class="search-form">
+    <input type="text" class="search-field" placeholder="Search...">
+    <button class="close-btn"><i class="fa fa-times-circle fa-2x"></i></button>
+    <ul class="search-results post-list"></ul><!-- /.search-results -->
+  </div><!-- /.search-form -->
+</div><!-- ./search-wrapper -->
+
+<header class="masthead">
+	<div class="wrap">
+        
+        <h1 class="site-title animated fadeIn"><a href="/">RandomDev</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">De tudo um pouco sobre o mundo do desenvolvimento de software.</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <span class="entry-tags"><a href="/tags/#java" title="Pages tagged java">java</a>&nbsp;&bull;&nbsp;<a href="/tags/#generics" title="Pages tagged generics">generics</a></span>
+        
+          <h1 class="entry-title">Generics - Por baixo dos panos</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="/images/perfil.jpg" class="bio-photo" alt="Robson Bittencourt bio photo"></a>
+        
+        <span class="author vcard">Por <span class="fn">Robson Bittencourt</span></span>
+        <span class="entry-date date published"><time datetime="2016-05-20T11:00:00-03:00"><i class="fa fa-calendar-o"></i> 20/05/2016</time></span>
+        
+        <span class="entry-comments"><i class="fa fa-comment-o"></i> <a href="#disqus_thread">Comentários</a></span>
+        <span class="social-share-twitter">
+  <a href="https://twitter.com/intent/tweet?hashtags=java,generics&amp;text=Generics%20-%20Por%20baixo%20dos%20panos&amp;url=/generics-por-baixo-dos-panos/&amp;via=rluizv" title="Share on Twitter" itemprop="Twitter"><i class="fa fa-twitter-square"></i> Tweet</a>
+</span>
+<span class="social-share-facebook">
+  <a href="https://www.facebook.com/sharer/sharer.php?u=/generics-por-baixo-dos-panos/" title="Share on Facebook" itemprop="Facebook"><i class="fa fa-facebook-square"></i> Like</a>
+</span>
+<span class="social-share-googleplus">
+  <a href="https://plus.google.com/share?url=/generics-por-baixo-dos-panos/" title="Share on Google Plus" itemprop="GooglePlus"><i class="fa fa-google-plus-square"></i> +1</a>
+</span>
+<span class="social-share-github">
+  <a href="https://github.com/robsonbittencourt/rbittencourt.com/tree/master/_posts/2016-05-23-generics-por-baixo-dos-panos.md" title="Github"><i class="fa fa-github-square"></i> Edite este post</a>
+</span>
+<!-- /.social-share -->
+      </footer>
+      <div class="entry-content">
+        <p>Demorei para escrever este último post da série sobre <em>Generics</em>, mas saiu. No <a href="http://rbittencourt.com/generics-indo-alem-wildcards/">post anterior</a> falei sobre <em>Wildcards</em> e como eles possibilitam a escrita de códigos mais flexíveis.</p>
+
+<p>Neste post, iremos descer um pouco o nível e entender alguns aspectos sobre como o mecanismo de <em>Generics</em> funciona por baixo dos panos.</p>
+
+<h3 id="raw-types">Raw Types</h3>
+
+<p>As versões anteriores a 1.5 do Java, não possuíam os recursos de <em>Generics</em> que vimos nos posts anteriores. Era comum vermos código como o abaixo nestas versões:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">();</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;t&quot;</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;d&quot;</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;f&quot;</span><span class="o">);</span>
+
+<span class="n">String</span> <span class="n">result</span> <span class="o">=</span> <span class="o">(</span><span class="n">String</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span></code></pre></figure>
+
+<p>A plataforma Java é conhecida por sua estabilidade, e largamente utilizada no ramo empresarial. Portanto com o lançamento da <em>feature</em> de tipos genéricos, classes que ganharam tipos genéricos deveriam continuar compilando para oferecer esta retrocompatibilidade.</p>
+
+<p>O código abaixo, apesar de não possuir um tipo genérico, compila em versões posteriores a 1.4, porém com um aviso.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//List is a raw type. References to generic type List&lt;E&gt; should be parameterized</span></code></pre></figure>
+
+<p>Isso possibilita que códigos legados possam migrar para versões recentes do Java. Porém o uso de <em>Raw Types</em> é desencorajado pois abre espaço para problemas como este:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">List</span> <span class="n">listWithoutType</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">listWithoutType</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+
+<span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">stringList</span> <span class="o">=</span> <span class="n">listWithoutType</span><span class="o">;</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stringList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span></code></pre></figure>
+
+<p>Vamos entender mais para frente o porque isto ser permitido. Porém com o devido cuidado isso pode ser um ponto positivo, pois permite iteração entre código pré e pós <em>Generics</em>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+   <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+   <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+   <span class="n">numbers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+
+   <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">sumNumbers</span><span class="o">(</span><span class="n">numbers</span><span class="o">);</span>
+
+   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">sumNumbers</span><span class="o">(</span><span class="n">List</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+   <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+   <span class="n">Iterator</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+
+   <span class="k">while</span> <span class="o">(</span><span class="n">iterator</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">sum</span> <span class="o">+=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)</span> <span class="n">iterator</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+   <span class="o">}</span>
+
+   <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Portanto os <em>Raw Types</em> foram importantes para que a compatibilidade entre versões fosse mantida. Mas como o compilador trata essas ocasiões? Vamos para o último e talvez mais complexo tópico desta série: <strong><em>Erasure</em></strong>.</p>
+
+<h3 id="erasure">Erasure</h3>
+
+<p>Vou contar uma coisa que talvez lhe pareça estranho a princípio.</p>
+
+<p><strong><em>Em Java tipos genéricos não existem em tempo de execução.</em></strong></p>
+
+<p>Após compilado, esses tipos são tratados de forma diferente de como os escrevemos. Seguem alguns exemplos do que acontece com os tipos após a compilação.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nl">Compilação:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="o">-&gt;</span> <span class="n">Execução</span><span class="o">:</span> <span class="n">List</span>
+
+<span class="nl">Compilação:</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;[]</span> <span class="o">-&gt;</span> <span class="n">Execução</span><span class="o">:</span> <span class="n">List</span>
+
+<span class="nl">Compilação:</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">-&gt;</span> <span class="n">Execução</span><span class="o">:</span> <span class="n">Object</span>
+
+<span class="nl">Compilação:</span> <span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">Foo</span><span class="o">&gt;</span> <span class="o">-&gt;</span> <span class="n">Foo</span></code></pre></figure>
+
+<p>Está duvidando? Vamos fazer uma verificação mais profunda. Observe a seguinte classe:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Erasure</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">B</span> <span class="kd">extends</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;&gt;</span> <span class="o">{</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">unbounded</span><span class="o">(</span><span class="n">T</span> <span class="n">param</span><span class="o">)</span> <span class="o">{}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">lists</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">param</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span> <span class="n">param2</span><span class="o">)</span> <span class="o">{}</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">bounded</span><span class="o">(</span><span class="n">B</span> <span class="n">param</span><span class="o">)</span> <span class="o">{}</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<p>Agora utilizando o comando <em>javap</em> vamos decompilar o .class gerado.</p>
+
+<figure>
+	<img src="/images/2016-05-23-generics/1.png" alt="console aws" />
+</figure>
+
+<p>Como podemos observar, no campo <em>descriptor</em>, os verdadeiros tipos que são interpretados pela JVM, não são genéricos. Os tipos genéricos são removidos, os <em>unbounded parameters</em> se tornam <em>Object</em>, e os <em>bounded parameters</em> se tornam o tipo que estendem, nesse caso <em>Comparable</em>. Além disso podemos observar no método <em>lists</em>, que um <em>checkcast</em> é feito, para garantir que o parâmetro passado é uma <em>String</em>. Esse comportamento traz algumas implicações, e é importante conhece-las.</p>
+
+<p>####Sobrecarga de métodos</p>
+
+<p>Por conta do mecanismo de <em>Erasure</em>, métodos sobrecarregados, onde a única diferença é um tipo genérico não são válidos. Isso se deve ao fato que o compilador não saberia qual método chamar após a remoção do tipo genérico.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">params</span><span class="o">)</span> <span class="o">{}</span>
+
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">params</span><span class="o">)</span> <span class="o">{}</span>
+
+<span class="c1">//Erasure of method doSomething(List&lt;String&gt;) is the same as another method in type TestClass</span></code></pre></figure>
+
+<h4 id="instanceof">InstanceOf</h4>
+
+<p>Outra consequência do uso de <em>Erasure</em> é que não é possível utilizar <em>instanceOf</em> com tipos genéricos, pois como vimos eles não existem em tempo de execução.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">equals</span><span class="o">(</span><span class="n">Object</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+   <span class="c1">// Cannot perform instanceof check against parameterized type</span>
+   <span class="c1">// TestClass&lt;T&gt;. Use the form TestClass&lt;?&gt; instead since further generic</span>
+   <span class="c1">// type information will be erased at runtime</span>
+
+   <span class="k">if</span> <span class="o">(</span><span class="n">o</span> <span class="k">instanceof</span> <span class="n">TestClass</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+   <span class="o">}</span>
+
+   <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span></code></pre></figure>
+
+<h4 id="exceptions">Exceptions</h4>
+
+<p>Também não é possível criar exceções genéricas, pois como não podemos utilizar <em>instanceOf</em> o <em>catch</em> do bloco <em>try/catch</em> não conseguiria identificar o tipo da exceção. Em virtude disso o Java nem permite a criação desse tipo de <em>exception</em>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// The generic class UncompilableException&lt;T&gt; may not subclass</span>
+<span class="c1">// java.lang.Throwable</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UncompilableException</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="n">Exception</span> <span class="o">{</span>
+
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doSomething</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="n">UncompilableException</span><span class="o">();</span>
+	  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">UncompilableException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	  	 <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+	  <span class="o">}</span>
+   <span class="o">}</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="conclusão">Conclusão</h3>
+
+<p>Chegamos ao fim desta série sobre <em>Generics</em>. Espero que tenha sido útil, e esclarecido suas dúvidas sobre esta grande funcionalidade Java. Se ainda surgirem dúvidas fique a vontade para deixar um comentário.</p>
+
+        <div id="disqus_thread"></div><!-- /#disqus_thread -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="/generics-indo-alem-wildcards/" class="btn" title="Generics indo além - Wildcards">Previous</a>
+      
+      
+        <a href="/vscode-meu-novo-editor-de-textos/" class="btn" title="VSCode - Meu novo editor de texto">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    <span>&copy; 2021 Robson Bittencourt. Desenvolvido com Jekyll usando o tema So Simple Theme.</span>
+<div class="social-icons">
+	<a href="http://twitter.com/rluizv" title="Robson Bittencourt no Twitter" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+	<a href="http://facebook.com/robson.bittencourt2" title="Robson Bittencourt no Facebook" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>
+	<a href="http://plus.google.com/+RobsonBittencourt" title="Robson Bittencourt no Google+" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>
+	<a href="http://linkedin.com/in/robsonbittencourt" title="Robson Bittencourt no LinkedIn" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+	
+	
+	
+	<a href="http://github.com/robsonbittencourt" title="Robson Bittencourt no Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  <a href="/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+<!-- Jekyll Simple Search option -->
+<script>
+  $(document).ready(function() {
+      $('.search-field').jekyllSearch({
+          jsonFile: '/search.json',
+          searchResults: '.search-results',
+          template: '<li><article><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></article></li>',
+          fuzzy: true,
+          noResults: '<p>Nothing found.</p>'
+        });
+  });
+
+  (function( $, window, undefined ) {
+    
+     var bs = {
+          close: $(".close-btn"),
+          searchform: $(".search-form"),
+          canvas: $(".js-menu-screen"),
+          dothis: $('.dosearch')
+      };
+    
+    bs.dothis.on('click', function() {
+      $('.search-wrapper').css({ display: "block" });
+      $('body').toggleClass('no-scroll');
+      bs.searchform.toggleClass('active');
+      bs.searchform.find('input').focus();
+      bs.canvas.toggleClass('is-visible');
+    });
+    
+      bs.close.on('click', function() {
+        $('.search-wrapper').removeAttr( 'style' );
+        $('body').toggleClass('no-scroll');
+        bs.searchform.toggleClass('active');
+        bs.canvas.removeClass('is-visible');
+    });
+  })( jQuery, window );
+</script>
+
+
+
+
+  
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'rbittencourt'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+
+	        
+
+</body>
+</html>
